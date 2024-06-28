@@ -43,7 +43,6 @@ import org.apache.http.nio.NHttpMessageParserFactory;
 import org.apache.http.nio.NHttpServerEventHandler;
 import org.apache.http.nio.reactor.IOSession;
 import org.apache.http.nio.reactor.ssl.SSLSetupHandler;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -130,41 +129,8 @@ public class DefaultHttpServerIODispatch<H extends NHttpServerEventHandler>
         this.connectionFactory = Args.notNull(connFactory, "HTTP server connection factory");
     }
 
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpServerIODispatch#DefaultHttpServerIODispatch(
-     *   NHttpServerEventHandler, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpServerIODispatch(
-            final H handler,
-            final HttpParams params) {
-        this(handler, new DefaultNHttpServerConnectionFactory(params));
-    }
 
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpServerIODispatch#DefaultHttpServerIODispatch(
-     *   NHttpServerEventHandler, SSLContext, SSLSetupHandler, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpServerIODispatch(
-            final H handler,
-            final SSLContext sslContext,
-            final SSLSetupHandler sslHandler,
-            final HttpParams params) {
-        this(handler, new SSLNHttpServerConnectionFactory(sslContext, sslHandler, params));
-    }
 
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpServerIODispatch#DefaultHttpServerIODispatch(
-     *   NHttpServerEventHandler, SSLContext, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpServerIODispatch(
-            final H handler,
-            final SSLContext sslContext,
-            final HttpParams params) {
-        this(handler, sslContext, null, params);
-    }
 
     /**
      * @since 4.3

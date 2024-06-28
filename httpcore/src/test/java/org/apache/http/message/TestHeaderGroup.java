@@ -84,7 +84,7 @@ public class TestHeaderGroup {
         headergroup.updateHeader(new BasicHeader("name4", "value4"));
         headergroup.updateHeader(null);
         Assert.assertEquals(4, headergroup.getAllHeaders().length);
-        Assert.assertEquals("newvalue", headergroup.getFirstHeader("name2").getValue());
+        Assert.assertEquals("newvalue", headergroup.getFirstHeader("name2").value());
     }
 
     @Test
@@ -117,8 +117,8 @@ public class TestHeaderGroup {
         Assert.assertNull(headergroup.getFirstHeader("whatever"));
         Assert.assertNull(headergroup.getLastHeader("whatever"));
 
-        Assert.assertEquals("value1", headergroup.getFirstHeader("name").getValue());
-        Assert.assertEquals("value3", headergroup.getLastHeader("name").getValue());
+        Assert.assertEquals("value1", headergroup.getFirstHeader("name").value());
+        Assert.assertEquals("value3", headergroup.getLastHeader("name").value());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class TestHeaderGroup {
         final Header header3 = new BasicHeader("name", "value3");
         headergroup.setHeaders(new Header[] { header1, header2, header3 });
 
-        Assert.assertEquals("value1, value2, value3", headergroup.getCondensedHeader("name").getValue());
+        Assert.assertEquals("value1, value2, value3", headergroup.getCondensedHeader("name").value());
 
         headergroup.setHeaders(new Header[] { header1 });
         Assert.assertEquals(header1, headergroup.getCondensedHeader("name"));
@@ -182,8 +182,8 @@ public class TestHeaderGroup {
         Assert.assertEquals(3, headers2.length);
         Assert.assertEquals(headers1.length, headers2.length);
         for (int i = 0; i < headers1.length; i++) {
-            Assert.assertEquals(headers1[i].getName(), headers2[i].getName());
-            Assert.assertEquals(headers1[i].getValue(), headers2[i].getValue());
+            Assert.assertEquals(headers1[i].name(), headers2[i].name());
+            Assert.assertEquals(headers1[i].value(), headers2[i].value());
         }
     }
 
@@ -208,8 +208,8 @@ public class TestHeaderGroup {
         Assert.assertNotNull(headers2);
         Assert.assertEquals(headers1.length, headers2.length);
         for (int i = 0; i < headers1.length; i++) {
-            Assert.assertEquals(headers1[i].getName(), headers2[i].getName());
-            Assert.assertEquals(headers1[i].getValue(), headers2[i].getValue());
+            Assert.assertEquals(headers1[i].name(), headers2[i].name());
+            Assert.assertEquals(headers1[i].value(), headers2[i].value());
         }
     }
 

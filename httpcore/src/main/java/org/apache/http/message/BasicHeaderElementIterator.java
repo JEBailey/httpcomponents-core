@@ -78,7 +78,7 @@ public class BasicHeaderElementIterator implements HeaderElementIterator {
                 this.cursor.updatePos(((FormattedHeader) h).getValuePos());
                 break;
             }
-            final String value = h.getValue();
+            final String value = h.value();
             if (value != null) {
                 this.buffer = new CharArrayBuffer(value.length());
                 this.buffer.append(value);

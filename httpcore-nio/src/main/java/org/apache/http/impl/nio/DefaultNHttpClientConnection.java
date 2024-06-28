@@ -45,8 +45,6 @@ import org.apache.http.impl.nio.codecs.DefaultHttpRequestWriterFactory;
 import org.apache.http.impl.nio.codecs.DefaultHttpResponseParser;
 import org.apache.http.impl.nio.codecs.DefaultHttpResponseParserFactory;
 import org.apache.http.nio.NHttpClientEventHandler;
-import org.apache.http.nio.NHttpClientHandler;
-import org.apache.http.nio.NHttpClientIOTarget;
 import org.apache.http.nio.NHttpMessageParser;
 import org.apache.http.nio.NHttpMessageParserFactory;
 import org.apache.http.nio.NHttpMessageWriter;
@@ -56,8 +54,6 @@ import org.apache.http.nio.reactor.IOSession;
 import org.apache.http.nio.reactor.SessionInputBuffer;
 import org.apache.http.nio.reactor.SessionOutputBuffer;
 import org.apache.http.nio.util.ByteBufferAllocator;
-import org.apache.http.params.HttpParamConfig;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -68,38 +64,11 @@ import org.apache.http.util.Args;
  */
 @SuppressWarnings("deprecation")
 public class DefaultNHttpClientConnection
-    extends NHttpConnectionBase implements NHttpClientIOTarget {
+    extends NHttpConnectionBase {
 
     protected final NHttpMessageParser<HttpResponse> responseParser;
     protected final NHttpMessageWriter<HttpRequest> requestWriter;
 
-    /**
-     * Creates a new instance of this class given the underlying I/O session.
-     *
-     * @param session the underlying I/O session.
-     * @param responseFactory HTTP response factory.
-     * @param allocator byte buffer allocator.
-     * @param params HTTP parameters.
-     *
-     * @deprecated (4.3) use {@link DefaultNHttpClientConnection#DefaultNHttpClientConnection(
-     *   IOSession, int, int, ByteBufferAllocator, CharsetDecoder, CharsetEncoder,
-     *   MessageConstraints, ContentLengthStrategy, ContentLengthStrategy,
-     *   NHttpMessageWriterFactory, NHttpMessageParserFactory)}
-     */
-    @Deprecated
-    public DefaultNHttpClientConnection(
-            final IOSession session,
-            final HttpResponseFactory responseFactory,
-            final ByteBufferAllocator allocator,
-            final HttpParams params) {
-        super(session, allocator, params);
-        Args.notNull(responseFactory, "Response factory");
-        this.responseParser = createResponseParser(this.inbuf, responseFactory, params);
-        this.requestWriter = createRequestWriter(this.outbuf, params);
-        this.hasBufferedInput = false;
-        this.hasBufferedOutput = false;
-        this.session.setBufferStatus(this);
-    }
 
     /**
      * Creates new instance DefaultNHttpClientConnection given the underlying I/O session.

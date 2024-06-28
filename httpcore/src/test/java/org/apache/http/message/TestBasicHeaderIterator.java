@@ -217,7 +217,7 @@ public class TestBasicHeaderIterator {
     @Test
     public void testInvalid() {
 
-        HeaderIterator hit = null;
+        HeaderIterator hit;
         try {
             hit = new BasicHeaderIterator(null, "whatever");
             Assert.fail("null headers not detected");

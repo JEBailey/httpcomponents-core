@@ -88,10 +88,10 @@ public class TestChunkCoding {
         final Header[] footers = in.getFooters();
         Assert.assertNotNull(footers);
         Assert.assertEquals(2, footers.length);
-        Assert.assertEquals("Footer1", footers[0].getName());
-        Assert.assertEquals("abcde", footers[0].getValue());
-        Assert.assertEquals("Footer2", footers[1].getName());
-        Assert.assertEquals("fghij", footers[1].getValue());
+        Assert.assertEquals("Footer1", footers[0].name());
+        Assert.assertEquals("abcde", footers[0].value());
+        Assert.assertEquals("Footer2", footers[1].name());
+        Assert.assertEquals("fghij", footers[1].value());
     }
 
     //Test for when buffer is smaller than chunk size.
@@ -114,10 +114,10 @@ public class TestChunkCoding {
         final Header[] footers = in.getFooters();
         Assert.assertNotNull(footers);
         Assert.assertEquals(2, footers.length);
-        Assert.assertEquals("Footer1", footers[0].getName());
-        Assert.assertEquals("abcde", footers[0].getValue());
-        Assert.assertEquals("Footer2", footers[1].getName());
-        Assert.assertEquals("fghij", footers[1].getValue());
+        Assert.assertEquals("Footer1", footers[0].name());
+        Assert.assertEquals("abcde", footers[0].value());
+        Assert.assertEquals("Footer2", footers[1].name());
+        Assert.assertEquals("fghij", footers[1].value());
     }
 
     // One byte read
@@ -354,7 +354,7 @@ public class TestChunkCoding {
 
         final byte[] d = new byte[10];
         final ByteArrayOutputStream result = new ByteArrayOutputStream();
-        int len = 0;
+        int len;
         while ((len = in.read(d)) > 0) {
             result.write(d, 0, len);
         }

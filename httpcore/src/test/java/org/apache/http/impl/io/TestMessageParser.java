@@ -77,12 +77,12 @@ public class TestMessageParser {
             (receiver, -1, -1, null);
         Assert.assertNotNull(headers);
         Assert.assertEquals(3, headers.length);
-        Assert.assertEquals("header1", headers[0].getName());
-        Assert.assertEquals("stuff", headers[0].getValue());
-        Assert.assertEquals("header2", headers[1].getName());
-        Assert.assertEquals("stuff", headers[1].getValue());
-        Assert.assertEquals("header3", headers[2].getName());
-        Assert.assertEquals("stuff and more stuff and even more stuff", headers[2].getValue());
+        Assert.assertEquals("header1", headers[0].name());
+        Assert.assertEquals("stuff", headers[0].value());
+        Assert.assertEquals("header2", headers[1].name());
+        Assert.assertEquals("stuff", headers[1].value());
+        Assert.assertEquals("header3", headers[2].name());
+        Assert.assertEquals("stuff and more stuff and even more stuff", headers[2].value());
 
         final Header h = headers[0];
 
@@ -111,10 +111,10 @@ public class TestMessageParser {
         final NameValuePair[] params = elements[0].getParameters();
         Assert.assertNotNull(params);
         Assert.assertEquals(2, params.length);
-        Assert.assertEquals("param1", params[0].getName());
-        Assert.assertEquals("value1", params[0].getValue());
-        Assert.assertEquals("param2", params[1].getName());
-        Assert.assertEquals("value 2", params[1].getValue());
+        Assert.assertEquals("param1", params[0].name());
+        Assert.assertEquals("value1", params[0].value());
+        Assert.assertEquals("param2", params[1].name());
+        Assert.assertEquals("value 2", params[1].value());
     }
 
     @Test
@@ -151,10 +151,10 @@ public class TestMessageParser {
             (receiver, -1, -1, null);
         Assert.assertNotNull(headers);
         Assert.assertEquals(2, headers.length);
-        Assert.assertEquals("header1", headers[0].getName());
-        Assert.assertEquals("stuff", headers[0].getValue());
-        Assert.assertEquals("header2", headers[1].getName());
-        Assert.assertEquals("stuff", headers[1].getValue());
+        Assert.assertEquals("header1", headers[0].name());
+        Assert.assertEquals("stuff", headers[0].value());
+        Assert.assertEquals("header2", headers[1].name());
+        Assert.assertEquals("stuff", headers[1].value());
     }
 
     @Test

@@ -92,12 +92,12 @@ public class BufferedHeader implements FormattedHeader, Cloneable, Serializable 
 
 
     @Override
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
     @Override
-    public String getValue() {
+    public String value() {
         return this.buffer.substringTrimmed(this.valuePos, this.buffer.length());
     }
 

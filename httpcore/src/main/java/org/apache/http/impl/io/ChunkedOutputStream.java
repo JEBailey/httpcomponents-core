@@ -63,13 +63,10 @@ public class ChunkedOutputStream extends OutputStream {
      *
      * @param out The session output buffer
      * @param bufferSize The minimum chunk size (excluding last chunk)
-     * @throws IOException not thrown
-     *
      * @deprecated (4.3) use {@link ChunkedOutputStream#ChunkedOutputStream(int, SessionOutputBuffer)}
      */
     @Deprecated
-    public ChunkedOutputStream(final SessionOutputBuffer out, final int bufferSize)
-            throws IOException {
+    public ChunkedOutputStream(final SessionOutputBuffer out, final int bufferSize) {
         this(bufferSize, out);
     }
 
@@ -78,13 +75,10 @@ public class ChunkedOutputStream extends OutputStream {
      * size of 2048 was chosen because the chunk overhead is less than 0.5%
      *
      * @param out       the output buffer to wrap
-     * @throws IOException not thrown
-     *
      * @deprecated (4.3) use {@link ChunkedOutputStream#ChunkedOutputStream(int, SessionOutputBuffer)}
      */
     @Deprecated
-    public ChunkedOutputStream(final SessionOutputBuffer out)
-            throws IOException {
+    public ChunkedOutputStream(final SessionOutputBuffer out) {
         this(2048, out);
     }
 

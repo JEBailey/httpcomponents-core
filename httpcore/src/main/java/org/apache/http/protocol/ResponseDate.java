@@ -54,8 +54,7 @@ public class ResponseDate implements HttpResponseInterceptor {
     }
 
     @Override
-    public void process(final HttpResponse response, final HttpContext context)
-            throws HttpException, IOException {
+    public void process(final HttpResponse response, final HttpContext context) {
         Args.notNull(response, "HTTP response");
         final int status = response.getStatusLine().getStatusCode();
         if ((status >= HttpStatus.SC_OK) &&

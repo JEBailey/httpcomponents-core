@@ -110,7 +110,7 @@ public class InputStreamEntity extends AbstractHttpEntity {
     }
 
     @Override
-    public InputStream getContent() throws IOException {
+    public InputStream getContent() {
         return this.content;
     }
 

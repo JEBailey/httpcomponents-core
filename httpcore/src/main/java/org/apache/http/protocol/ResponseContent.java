@@ -90,7 +90,7 @@ public class ResponseContent implements HttpResponseInterceptor {
      */
     @Override
     public void process(final HttpResponse response, final HttpContext context)
-            throws HttpException, IOException {
+            throws HttpException {
         Args.notNull(response, "HTTP response");
         if (this.overwrite) {
             response.removeHeaders(HTTP.TRANSFER_ENCODING);

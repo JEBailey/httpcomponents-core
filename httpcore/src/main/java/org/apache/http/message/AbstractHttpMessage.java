@@ -30,8 +30,6 @@ package org.apache.http.message;
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
 import org.apache.http.HttpMessage;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -39,29 +37,16 @@ import org.apache.http.util.Args;
  *
  * @since 4.0
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractHttpMessage implements HttpMessage {
 
-    protected HeaderGroup headergroup;
-
-    /**
-     * @deprecated Do not use.
-     */
-    @Deprecated
-    protected HttpParams params;
-
-    /**
-     * @deprecated (4.3) use {@link AbstractHttpMessage#AbstractHttpMessage()}
-     */
-    @Deprecated
-    protected AbstractHttpMessage(final HttpParams params) {
-        super();
-        this.headergroup = new HeaderGroup();
-        this.params = params;
-    }
+    protected final HeaderGroup headergroup;
 
     protected AbstractHttpMessage() {
-        this(null);
+        this.headergroup = new HeaderGroup();
+    }
+
+    protected AbstractHttpMessage(HeaderGroup headergroup) {
+        this.headergroup = headergroup;
     }
 
     // non-javadoc, see interface HttpMessage
@@ -140,7 +125,7 @@ public abstract class AbstractHttpMessage implements HttpMessage {
         }
         for (final HeaderIterator i = this.headergroup.iterator(); i.hasNext(); ) {
             final Header header = i.nextHeader();
-            if (name.equalsIgnoreCase(header.getName())) {
+            if (name.equalsIgnoreCase(header.name())) {
                 i.remove();
             }
         }
@@ -158,24 +143,5 @@ public abstract class AbstractHttpMessage implements HttpMessage {
         return this.headergroup.iterator(name);
     }
 
-    /**
-     * @deprecated (4.3) use constructor parameters of configuration API provided by HttpClient
-     */
-    @Override
-    @Deprecated
-    public HttpParams getParams() {
-        if (this.params == null) {
-            this.params = new BasicHttpParams();
-        }
-        return this.params;
-    }
 
-    /**
-     * @deprecated (4.3) use constructor parameters of configuration API provided by HttpClient
-     */
-    @Override
-    @Deprecated
-    public void setParams(final HttpParams params) {
-        this.params = Args.notNull(params, "HTTP parameters");
-    }
 }

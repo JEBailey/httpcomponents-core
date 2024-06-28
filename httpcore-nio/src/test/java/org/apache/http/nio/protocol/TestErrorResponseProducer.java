@@ -59,7 +59,7 @@ public class TestErrorResponseProducer {
         erp = new ErrorResponseProducer(response, entity, true);
         final HttpResponse res = erp.generateResponse();
 
-        Assert.assertEquals(HTTP.CONN_KEEP_ALIVE, res.getFirstHeader(HTTP.CONN_DIRECTIVE).getValue());
+        Assert.assertEquals(HTTP.CONN_KEEP_ALIVE, res.getFirstHeader(HTTP.CONN_DIRECTIVE).value());
         Assert.assertEquals(entity, res.getEntity());
         Assert.assertEquals(200, res.getStatusLine().getStatusCode());
     }
@@ -69,7 +69,7 @@ public class TestErrorResponseProducer {
         erp = new ErrorResponseProducer(response, entity, false);
         final HttpResponse res = erp.generateResponse();
 
-        Assert.assertEquals(HTTP.CONN_CLOSE, res.getFirstHeader(HTTP.CONN_DIRECTIVE).getValue());
+        Assert.assertEquals(HTTP.CONN_CLOSE, res.getFirstHeader(HTTP.CONN_DIRECTIVE).value());
         Assert.assertEquals(entity, res.getEntity());
         Assert.assertEquals(200, res.getStatusLine().getStatusCode());
     }

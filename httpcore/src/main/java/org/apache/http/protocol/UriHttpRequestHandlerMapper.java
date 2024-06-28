@@ -60,7 +60,7 @@ public class UriHttpRequestHandlerMapper implements HttpRequestHandlerMapper {
     }
 
     public UriHttpRequestHandlerMapper() {
-        this(new UriPatternMatcher<HttpRequestHandler>());
+        this(new UriPatternMatcher<>());
     }
 
     /**

@@ -45,13 +45,13 @@ public interface NameValuePair {
      *
      * @return the name of this pair, never {@code null}.
      */
-    String getName();
+    String name();
 
     /**
      * Gets the value of this pair.
      *
      * @return the value of this pair, may be {@code null}.
      */
-    String getValue();
+    String value();
 
 }

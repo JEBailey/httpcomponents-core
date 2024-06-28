@@ -48,9 +48,6 @@ import org.apache.http.nio.reactor.IOReactor;
 import org.apache.http.nio.reactor.IOReactorException;
 import org.apache.http.nio.reactor.IOReactorExceptionHandler;
 import org.apache.http.nio.reactor.IOReactorStatus;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 import org.apache.http.util.Asserts;
 
@@ -99,11 +96,6 @@ public abstract class AbstractMultiworkerIOReactor implements IOReactor {
 
     protected volatile IOReactorStatus status;
 
-    /**
-     * @deprecated (4.2)
-     */
-    @Deprecated
-    protected final HttpParams params;
     protected final IOReactorConfig config;
     protected final Selector selector;
     protected final long selectTimeout;
@@ -118,7 +110,7 @@ public abstract class AbstractMultiworkerIOReactor implements IOReactor {
 
     //TODO: make final
     protected IOReactorExceptionHandler exceptionHandler;
-    protected List<ExceptionEvent> auditLog;
+    protected final List<ExceptionEvent> auditLog;
 
     private int currentWorker = 0;
 
@@ -137,7 +129,6 @@ public abstract class AbstractMultiworkerIOReactor implements IOReactor {
             final ThreadFactory threadFactory) throws IOReactorException {
         super();
         this.config = config != null ? config : IOReactorConfig.DEFAULT;
-        this.params = new BasicHttpParams();
         try {
             this.selector = Selector.open();
         } catch (final IOException ex) {
@@ -168,46 +159,6 @@ public abstract class AbstractMultiworkerIOReactor implements IOReactor {
      */
     public AbstractMultiworkerIOReactor() throws IOReactorException {
         this(null, null);
-    }
-
-    /**
-     * @deprecated Do not use.
-     */
-    @Deprecated
-    static IOReactorConfig convert(final int workerCount, final HttpParams params) {
-        Args.notNull(params, "HTTP parameters");
-        return IOReactorConfig.custom()
-            .setSelectInterval(params.getLongParameter(NIOReactorPNames.SELECT_INTERVAL, 1000))
-            .setShutdownGracePeriod(params.getLongParameter(NIOReactorPNames.GRACE_PERIOD, 500))
-            .setInterestOpQueued(params.getBooleanParameter(NIOReactorPNames.SELECT_INTERVAL, false))
-            .setIoThreadCount(workerCount)
-            .setSoTimeout(params.getIntParameter(CoreConnectionPNames.SO_TIMEOUT, 0))
-            .setConnectTimeout(params.getIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 0))
-            .setSoTimeout(params.getIntParameter(CoreConnectionPNames.SO_TIMEOUT, 0))
-            .setSoReuseAddress(params.getBooleanParameter(CoreConnectionPNames.SO_REUSEADDR, false))
-            .setSoKeepAlive(params.getBooleanParameter(CoreConnectionPNames.SO_KEEPALIVE, false))
-            .setSoLinger(params.getIntParameter(CoreConnectionPNames.SO_LINGER, -1))
-            .setTcpNoDelay(params.getBooleanParameter(CoreConnectionPNames.TCP_NODELAY, true))
-            .build();
-    }
-
-    /**
-     * Creates an instance of AbstractMultiworkerIOReactor.
-     *
-     * @param workerCount number of worker I/O reactors.
-     * @param threadFactory the factory to create threads.
-     *   Can be {@code null}.
-     * @param params HTTP parameters.
-     * @throws IOReactorException in case if a non-recoverable I/O error.
-     *
-     * @deprecated (4.2) use {@link AbstractMultiworkerIOReactor#AbstractMultiworkerIOReactor(IOReactorConfig, ThreadFactory)}
-     */
-    @Deprecated
-    public AbstractMultiworkerIOReactor(
-            final int workerCount,
-            final ThreadFactory threadFactory,
-            final HttpParams params) throws IOReactorException {
-        this(convert(workerCount, params), threadFactory);
     }
 
     @Override

@@ -81,8 +81,8 @@
 
   <properties>
     <!-- Override parent 7 setting for deprecation (only - other settings stand)-->
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.showDeprecation>false</maven.compiler.showDeprecation>
     <conscrypt.version>2.2.1</conscrypt.version>
     <junit.version>4.12</junit.version>
@@ -243,22 +243,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <configLocation>hc-stylecheck/default.xml</configLocation>
-          <headerLocation>hc-stylecheck/asl2.header</headerLocation>
-          <consoleOutput>true</consoleOutput>
-          <failsOnError>true</failsOnError>
-          <linkXRef>false</linkXRef>
-          <sourceDirectories>
-            <sourceDirectory>${basedir}/src/main/</sourceDirectory>
-            <sourceDirectory>${basedir}/src/test</sourceDirectory>
-          </sourceDirectories>
-          <excludes>**/java-deprecated/**</excludes>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

@@ -132,7 +132,7 @@ public final class ContentType implements Serializable {
             TEXT_HTML,
             TEXT_PLAIN,
             TEXT_XML };
-        final HashMap<String, ContentType> map = new HashMap<String, ContentType>();
+        final HashMap<String, ContentType> map = new HashMap<>();
         for (final ContentType contentType: contentTypes) {
             map.put(contentType.getMimeType(), contentType);
         }
@@ -181,8 +181,8 @@ public final class ContentType implements Serializable {
             return null;
         }
         for (final NameValuePair param: this.params) {
-            if (param.getName().equalsIgnoreCase(name)) {
-                return param.getValue();
+            if (param.name().equalsIgnoreCase(name)) {
+                return param.value();
             }
         }
         return null;
@@ -264,8 +264,8 @@ public final class ContentType implements Serializable {
     private static ContentType create(final String mimeType, final NameValuePair[] params, final boolean strict) {
         Charset charset = null;
         for (final NameValuePair param: params) {
-            if (param.getName().equalsIgnoreCase("charset")) {
-                final String s = param.getValue();
+            if (param.name().equalsIgnoreCase("charset")) {
+                final String s = param.value();
                 if (!TextUtils.isBlank(s)) {
                     try {
                         charset =  Charset.forName(s);
@@ -460,16 +460,16 @@ public final class ContentType implements Serializable {
         if (params.length == 0) {
             return this;
         }
-        final Map<String, String> paramMap = new LinkedHashMap<String, String>();
+        final Map<String, String> paramMap = new LinkedHashMap<>();
         if (this.params != null) {
             for (final NameValuePair param: this.params) {
-                paramMap.put(param.getName(), param.getValue());
+                paramMap.put(param.name(), param.value());
             }
         }
         for (final NameValuePair param: params) {
-            paramMap.put(param.getName(), param.getValue());
+            paramMap.put(param.name(), param.value());
         }
-        final List<NameValuePair> newParams = new ArrayList<NameValuePair>(paramMap.size() + 1);
+        final List<NameValuePair> newParams = new ArrayList<>(paramMap.size() + 1);
         if (this.charset != null && !paramMap.containsKey("charset")) {
             newParams.add(new BasicNameValuePair("charset", this.charset.name()));
         }

@@ -158,10 +158,9 @@ public class ProtocolVersion implements Serializable, Cloneable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof ProtocolVersion)) {
+        if (!(obj instanceof ProtocolVersion that)) {
             return false;
         }
-        final ProtocolVersion that = (ProtocolVersion) obj;
 
         return ((this.protocol.equals(that.protocol)) &&
                 (this.major == that.major) &&

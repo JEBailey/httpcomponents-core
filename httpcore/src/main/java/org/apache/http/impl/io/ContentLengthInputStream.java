@@ -111,7 +111,7 @@ public class ContentLengthInputStream extends InputStream {
     }
 
     @Override
-    public int available() throws IOException {
+    public int available() {
         if (this.in instanceof BufferInfo) {
             final int len = ((BufferInfo) this.in).length();
             return Math.min(len, (int) (this.contentLength - this.pos));

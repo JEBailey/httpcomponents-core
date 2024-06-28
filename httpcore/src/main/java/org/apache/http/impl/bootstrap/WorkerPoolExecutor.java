@@ -50,7 +50,7 @@ class WorkerPoolExecutor extends ThreadPoolExecutor {
             final BlockingQueue<Runnable> workQueue,
             final ThreadFactory threadFactory) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory);
-        this.workerSet = new ConcurrentHashMap<Worker, Boolean>();
+        this.workerSet = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -68,7 +68,7 @@ class WorkerPoolExecutor extends ThreadPoolExecutor {
     }
 
     public Set<Worker> getWorkers() {
-        return new HashSet<Worker>(this.workerSet.keySet());
+        return new HashSet<>(this.workerSet.keySet());
     }
 
 }

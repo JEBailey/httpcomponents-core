@@ -43,12 +43,12 @@ public class TestAbstractHttpEntity {
     public void testContentType() throws Exception {
         final BasicHttpEntity httpentity = new BasicHttpEntity();
         httpentity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "blah"));
-        Assert.assertEquals(HTTP.CONTENT_TYPE, httpentity.getContentType().getName());
-        Assert.assertEquals("blah", httpentity.getContentType().getValue());
+        Assert.assertEquals(HTTP.CONTENT_TYPE, httpentity.getContentType().name());
+        Assert.assertEquals("blah", httpentity.getContentType().value());
 
         httpentity.setContentType("blah");
-        Assert.assertEquals(HTTP.CONTENT_TYPE, httpentity.getContentType().getName());
-        Assert.assertEquals("blah", httpentity.getContentType().getValue());
+        Assert.assertEquals(HTTP.CONTENT_TYPE, httpentity.getContentType().name());
+        Assert.assertEquals("blah", httpentity.getContentType().value());
 
         httpentity.setContentType((Header)null);
         Assert.assertNull(httpentity.getContentType());
@@ -60,12 +60,12 @@ public class TestAbstractHttpEntity {
     public void testContentEncoding() throws Exception {
         final BasicHttpEntity httpentity = new BasicHttpEntity();
         httpentity.setContentEncoding(new BasicHeader(HTTP.CONTENT_ENCODING, "gzip"));
-        Assert.assertEquals(HTTP.CONTENT_ENCODING, httpentity.getContentEncoding().getName());
-        Assert.assertEquals("gzip", httpentity.getContentEncoding().getValue());
+        Assert.assertEquals(HTTP.CONTENT_ENCODING, httpentity.getContentEncoding().name());
+        Assert.assertEquals("gzip", httpentity.getContentEncoding().value());
 
         httpentity.setContentEncoding("gzip");
-        Assert.assertEquals(HTTP.CONTENT_ENCODING, httpentity.getContentEncoding().getName());
-        Assert.assertEquals("gzip", httpentity.getContentEncoding().getValue());
+        Assert.assertEquals(HTTP.CONTENT_ENCODING, httpentity.getContentEncoding().name());
+        Assert.assertEquals("gzip", httpentity.getContentEncoding().value());
 
         httpentity.setContentEncoding((Header)null);
         Assert.assertNull(httpentity.getContentEncoding());

@@ -32,6 +32,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.util.Args;
 import org.apache.http.util.LangUtils;
 
+import java.util.Objects;
+
 /**
  * Basic implementation of {@link HeaderElement}
  *
@@ -58,11 +60,7 @@ public class BasicHeaderElement implements HeaderElement, Cloneable {
         super();
         this.name = Args.notNull(name, "Name");
         this.value = value;
-        if (parameters != null) {
-            this.parameters = parameters;
-        } else {
-            this.parameters = new NameValuePair[] {};
-        }
+        this.parameters = Objects.requireNonNullElseGet(parameters, () -> new NameValuePair[]{});
     }
 
     /**
@@ -106,7 +104,7 @@ public class BasicHeaderElement implements HeaderElement, Cloneable {
         Args.notNull(name, "Name");
         NameValuePair found = null;
         for (final NameValuePair current : this.parameters) {
-            if (current.getName().equalsIgnoreCase(name)) {
+            if (current.name().equalsIgnoreCase(name)) {
                 found = current;
                 break;
             }

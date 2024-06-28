@@ -33,6 +33,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -107,12 +108,7 @@ public class HttpFileServer {
         server.start();
         server.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                server.shutdown(5, TimeUnit.SECONDS);
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> server.shutdown(5, TimeUnit.SECONDS)));
     }
 
     static class StdErrorExceptionLogger implements ExceptionLogger {
@@ -156,7 +152,7 @@ public class HttpFileServer {
                 System.out.println("Incoming entity content (bytes): " + entityContent.length);
             }
 
-            final File file = new File(this.docRoot, URLDecoder.decode(target, "UTF-8"));
+            final File file = new File(this.docRoot, URLDecoder.decode(target, StandardCharsets.UTF_8));
             if (!file.exists()) {
 
                 response.setStatusCode(HttpStatus.SC_NOT_FOUND);

@@ -545,7 +545,7 @@ public class TestSyncHttp {
                 if (someheader != null) {
                     final int secretNumber;
                     try {
-                        secretNumber = Integer.parseInt(someheader.getValue());
+                        secretNumber = Integer.parseInt(someheader.value());
                     } catch (final NumberFormatException ex) {
                         response.setStatusCode(HttpStatus.SC_BAD_REQUEST);
                         return;

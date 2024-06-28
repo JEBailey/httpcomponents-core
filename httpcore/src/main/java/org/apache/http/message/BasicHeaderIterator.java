@@ -60,7 +60,7 @@ public class BasicHeaderIterator implements HeaderIterator {
      * The header name to filter by.
      * {@code null} to iterate over all headers in the array.
      */
-    protected String headerName;
+    protected final String headerName;
 
 
 
@@ -114,7 +114,7 @@ public class BasicHeaderIterator implements HeaderIterator {
      */
     protected boolean filterHeader(final int index) {
         return (this.headerName == null) ||
-            this.headerName.equalsIgnoreCase(this.allHeaders[index].getName());
+            this.headerName.equalsIgnoreCase(this.allHeaders[index].name());
     }
 
 

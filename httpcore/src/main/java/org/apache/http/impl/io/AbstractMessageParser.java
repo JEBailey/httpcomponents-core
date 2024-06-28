@@ -42,8 +42,6 @@ import org.apache.http.io.HttpMessageParser;
 import org.apache.http.io.SessionInputBuffer;
 import org.apache.http.message.BasicLineParser;
 import org.apache.http.message.LineParser;
-import org.apache.http.params.HttpParamConfig;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 import org.apache.http.util.CharArrayBuffer;
 
@@ -53,7 +51,6 @@ import org.apache.http.util.CharArrayBuffer;
  *
  * @since 4.0
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractMessageParser<T extends HttpMessage> implements HttpMessageParser<T> {
 
     private static final int HEAD_LINE    = 0;
@@ -67,30 +64,6 @@ public abstract class AbstractMessageParser<T extends HttpMessage> implements Ht
     private int state;
     private T message;
 
-    /**
-     * Creates an instance of AbstractMessageParser.
-     *
-     * @param buffer the session input buffer.
-     * @param parser the line parser.
-     * @param params HTTP parameters.
-     *
-     * @deprecated (4.3) use {@link AbstractMessageParser#AbstractMessageParser(SessionInputBuffer,
-     *   LineParser, MessageConstraints)}
-     */
-    @Deprecated
-    public AbstractMessageParser(
-            final SessionInputBuffer buffer,
-            final LineParser parser,
-            final HttpParams params) {
-        super();
-        Args.notNull(buffer, "Session input buffer");
-        Args.notNull(params, "HTTP parameters");
-        this.sessionBuffer = buffer;
-        this.messageConstraints = HttpParamConfig.getMessageConstraints(params);
-        this.lineParser = (parser != null) ? parser : BasicLineParser.INSTANCE;
-        this.headerLines = new ArrayList<CharArrayBuffer>();
-        this.state = HEAD_LINE;
-    }
 
     /**
      * Creates new instance of AbstractMessageParser.
@@ -111,7 +84,7 @@ public abstract class AbstractMessageParser<T extends HttpMessage> implements Ht
         this.sessionBuffer = Args.notNull(buffer, "Session input buffer");
         this.lineParser = lineParser != null ? lineParser : BasicLineParser.INSTANCE;
         this.messageConstraints = constraints != null ? constraints : MessageConstraints.DEFAULT;
-        this.headerLines = new ArrayList<CharArrayBuffer>();
+        this.headerLines = new ArrayList<>();
         this.state = HEAD_LINE;
     }
 
@@ -139,7 +112,7 @@ public abstract class AbstractMessageParser<T extends HttpMessage> implements Ht
             final int maxHeaderCount,
             final int maxLineLen,
             final LineParser parser) throws HttpException, IOException {
-        final List<CharArrayBuffer> headerLines = new ArrayList<CharArrayBuffer>();
+        final List<CharArrayBuffer> headerLines = new ArrayList<>();
         return parseHeaders(inBuffer, maxHeaderCount, maxLineLen,
                 parser != null ? parser : BasicLineParser.INSTANCE,
                 headerLines);

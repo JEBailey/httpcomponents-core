@@ -47,8 +47,8 @@ public class TestHeaderElement {
         Assert.assertEquals("name", element.getName());
         Assert.assertEquals("value", element.getValue());
         Assert.assertEquals(2, element.getParameters().length);
-        Assert.assertEquals("value1", element.getParameterByName("param1").getValue());
-        Assert.assertEquals("value2", element.getParameterByName("param2").getValue());
+        Assert.assertEquals("value1", element.getParameterByName("param1").value());
+        Assert.assertEquals("value2", element.getParameterByName("param2").value());
     }
 
     @Test
@@ -74,8 +74,8 @@ public class TestHeaderElement {
     public void testParamByName() throws Exception {
         final String s = "name = value; param1 = value1; param2 = value2";
         final HeaderElement element = BasicHeaderValueParser.parseHeaderElement(s, null);
-        Assert.assertEquals("value1", element.getParameterByName("param1").getValue());
-        Assert.assertEquals("value2", element.getParameterByName("param2").getValue());
+        Assert.assertEquals("value1", element.getParameterByName("param1").value());
+        Assert.assertEquals("value2", element.getParameterByName("param2").value());
         Assert.assertNull(element.getParameterByName("param3"));
         try {
             element.getParameterByName(null);

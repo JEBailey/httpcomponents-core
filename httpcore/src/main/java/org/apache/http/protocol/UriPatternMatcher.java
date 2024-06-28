@@ -60,7 +60,7 @@ public class UriPatternMatcher<T> {
 
     public UriPatternMatcher() {
         super();
-        this.map = new LinkedHashMap<String, T>();
+        this.map = new LinkedHashMap<>();
     }
 
     /**
@@ -72,7 +72,7 @@ public class UriPatternMatcher<T> {
      * @since 4.4.9
      */
     public synchronized Set<Entry<String, T>> entrySet() {
-        return new HashSet<Entry<String, T>>(map.entrySet());
+        return new HashSet<>(map.entrySet());
     }
 
     /**

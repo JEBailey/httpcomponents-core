@@ -94,7 +94,7 @@ public class LaxContentLengthStrategy implements ContentLengthStrategy {
             }
             // The chunked encoding must be the last one applied RFC2616, 14.41
             final int len = encodings.length;
-            if (HTTP.IDENTITY_CODING.equalsIgnoreCase(transferEncodingHeader.getValue())) {
+            if (HTTP.IDENTITY_CODING.equalsIgnoreCase(transferEncodingHeader.value())) {
                 return IDENTITY;
             } else if ((len > 0) && (HTTP.CHUNK_CODING.equalsIgnoreCase(
                     encodings[len - 1].getName()))) {
@@ -110,7 +110,7 @@ public class LaxContentLengthStrategy implements ContentLengthStrategy {
             for (int i = headers.length - 1; i >= 0; i--) {
                 final Header header = headers[i];
                 try {
-                    contentLen = Long.parseLong(header.getValue());
+                    contentLen = Long.parseLong(header.value());
                     break;
                 } catch (final NumberFormatException ignore) {
                 }

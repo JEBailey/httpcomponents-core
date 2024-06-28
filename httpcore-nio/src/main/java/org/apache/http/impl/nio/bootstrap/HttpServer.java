@@ -55,12 +55,10 @@ public class HttpServer {
 
     private final int port;
     private final InetAddress ifAddress;
-    private final IOReactorConfig ioReactorConfig;
     private final NHttpServerEventHandler serverEventHandler;
     private final NHttpConnectionFactory<? extends DefaultNHttpServerConnection> connectionFactory;
     private final ExceptionLogger exceptionLogger;
     private final ExecutorService listenerExecutorService;
-    private final ThreadGroup dispatchThreads;
     private final AtomicReference<Status> status;
     private final DefaultListeningIOReactor ioReactor;
 
@@ -75,17 +73,16 @@ public class HttpServer {
             final ExceptionLogger exceptionLogger) {
         this.port = port;
         this.ifAddress = ifAddress;
-        this.ioReactorConfig = ioReactorConfig;
         this.serverEventHandler = serverEventHandler;
         this.connectionFactory = connectionFactory;
         this.exceptionLogger = exceptionLogger;
         this.listenerExecutorService = Executors.newSingleThreadExecutor(
                 new ThreadFactoryImpl("HTTP-listener-" + this.port));
-        this.dispatchThreads = new ThreadGroup("I/O-dispatchers");
+        ThreadGroup dispatchThreads = new ThreadGroup("I/O-dispatchers");
         try {
             this.ioReactor = new DefaultListeningIOReactor(
-                    this.ioReactorConfig,
-                    new ThreadFactoryImpl("I/O-dispatch", this.dispatchThreads));
+                    ioReactorConfig,
+                    new ThreadFactoryImpl("I/O-dispatch", dispatchThreads));
         } catch (final IOReactorException ex) {
             throw new IllegalStateException(ex);
         }

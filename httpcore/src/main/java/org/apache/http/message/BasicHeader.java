@@ -69,20 +69,20 @@ public class BasicHeader implements Header, Cloneable, Serializable {
 
     @Override
     public HeaderElement[] getElements() throws ParseException {
-        if (this.getValue() != null) {
+        if (this.value() != null) {
             // result intentionally not cached, it's probably not used again
-            return BasicHeaderValueParser.parseElements(this.getValue(), null);
+            return BasicHeaderValueParser.parseElements(this.value(), null);
         }
         return EMPTY_HEADER_ELEMENTS;
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return name;
     }
 
     @Override
-    public String getValue() {
+    public String value() {
         return value;
     }
 

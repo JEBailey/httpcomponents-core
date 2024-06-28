@@ -30,6 +30,7 @@ package org.apache.http;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.annotation.Contract;
@@ -303,12 +304,11 @@ public final class HttpHost implements Cloneable, Serializable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof HttpHost) {
-            final HttpHost that = (HttpHost) obj;
+        if (obj instanceof HttpHost that) {
             return this.lcHostname.equals(that.lcHostname)
                 && this.port == that.port
                 && this.schemeName.equals(that.schemeName)
-                && (this.address==null ? that.address== null : this.address.equals(that.address));
+                && (Objects.equals(this.address, that.address));
         }
         return false;
     }

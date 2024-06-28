@@ -219,9 +219,9 @@ public class TestNHttpConnectionBase {
         Assert.assertEquals(10, entity.getContentLength());
         Assert.assertFalse(entity.isChunked());
         Assert.assertNotNull(entity.getContentType());
-        Assert.assertEquals("stuff", entity.getContentType().getValue());
+        Assert.assertEquals("stuff", entity.getContentType().value());
         Assert.assertNotNull(entity.getContentEncoding());
-        Assert.assertEquals("identity", entity.getContentEncoding().getValue());
+        Assert.assertEquals("identity", entity.getContentEncoding().value());
         Assert.assertTrue(conn.contentDecoder instanceof LengthDelimitedDecoder);
     }
 
@@ -238,9 +238,9 @@ public class TestNHttpConnectionBase {
         Assert.assertEquals(-1, entity.getContentLength());
         Assert.assertTrue(entity.isChunked());
         Assert.assertNotNull(entity.getContentType());
-        Assert.assertEquals("stuff", entity.getContentType().getValue());
+        Assert.assertEquals("stuff", entity.getContentType().value());
         Assert.assertNotNull(entity.getContentEncoding());
-        Assert.assertEquals("identity", entity.getContentEncoding().getValue());
+        Assert.assertEquals("identity", entity.getContentEncoding().value());
         Assert.assertTrue(conn.contentDecoder instanceof ChunkDecoder);
     }
 

@@ -27,11 +27,8 @@
 
 package org.apache.http.protocol;
 
-import java.io.IOException;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
@@ -58,8 +55,7 @@ public class ResponseConnControl implements HttpResponseInterceptor {
     }
 
     @Override
-    public void process(final HttpResponse response, final HttpContext context)
-            throws HttpException, IOException {
+    public void process(final HttpResponse response, final HttpContext context) {
         Args.notNull(response, "HTTP response");
 
         final HttpCoreContext corecontext = HttpCoreContext.adapt(context);
@@ -77,7 +73,7 @@ public class ResponseConnControl implements HttpResponseInterceptor {
             return;
         }
         final Header explicit = response.getFirstHeader(HTTP.CONN_DIRECTIVE);
-        if (explicit != null && HTTP.CONN_CLOSE.equalsIgnoreCase(explicit.getValue())) {
+        if (explicit != null && HTTP.CONN_CLOSE.equalsIgnoreCase(explicit.value())) {
             // Connection persistence explicitly disabled
             return;
         }
@@ -97,7 +93,7 @@ public class ResponseConnControl implements HttpResponseInterceptor {
         if (request != null) {
             final Header header = request.getFirstHeader(HTTP.CONN_DIRECTIVE);
             if (header != null) {
-                response.setHeader(HTTP.CONN_DIRECTIVE, header.getValue());
+                response.setHeader(HTTP.CONN_DIRECTIVE, header.value());
             } else if (request.getProtocolVersion().lessEquals(HttpVersion.HTTP_1_0)) {
                 response.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
             }

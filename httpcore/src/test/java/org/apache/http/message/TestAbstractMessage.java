@@ -82,15 +82,15 @@ public class TestAbstractMessage {
 
         Header h = message.getFirstHeader("name");
         Assert.assertNotNull(h);
-        Assert.assertEquals("1", h.getValue());
+        Assert.assertEquals("1", h.value());
 
         message.setHeader("name", "3");
         h = message.getFirstHeader("name");
         Assert.assertNotNull(h);
-        Assert.assertEquals("3", h.getValue());
+        Assert.assertEquals("3", h.value());
         h = message.getLastHeader("name");
         Assert.assertNotNull(h);
-        Assert.assertEquals("2", h.getValue());
+        Assert.assertEquals("2", h.value());
 
         // Should have no effect
         message.addHeader(null);
@@ -99,8 +99,8 @@ public class TestAbstractMessage {
         headers = message.getHeaders("name");
         Assert.assertNotNull(headers);
         Assert.assertEquals(2, headers.length);
-        Assert.assertEquals("3", headers[0].getValue());
-        Assert.assertEquals("2", headers[1].getValue());
+        Assert.assertEquals("3", headers[0].value());
+        Assert.assertEquals("2", headers[1].value());
 
         message.addHeader("name", "4");
 
@@ -110,8 +110,8 @@ public class TestAbstractMessage {
         headers = message.getHeaders("name");
         Assert.assertNotNull(headers);
         Assert.assertEquals(2, headers.length);
-        Assert.assertEquals("3", headers[0].getValue());
-        Assert.assertEquals("5", headers[1].getValue());
+        Assert.assertEquals("3", headers[0].value());
+        Assert.assertEquals("5", headers[1].value());
 
         message.setHeader("whatever", null);
         message.removeHeaders("name");
@@ -119,7 +119,7 @@ public class TestAbstractMessage {
         headers = message.getAllHeaders();
         Assert.assertNotNull(headers);
         Assert.assertEquals(1, headers.length);
-        Assert.assertEquals(null, headers[0].getValue());
+        Assert.assertEquals(null, headers[0].value());
 
         message.removeHeader(message.getFirstHeader("whatever"));
         headers = message.getAllHeaders();

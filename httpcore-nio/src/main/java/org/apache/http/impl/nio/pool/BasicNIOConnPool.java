@@ -42,8 +42,6 @@ import org.apache.http.nio.pool.AbstractNIOConnPool;
 import org.apache.http.nio.pool.NIOConnFactory;
 import org.apache.http.nio.pool.SocketAddressResolver;
 import org.apache.http.nio.reactor.ConnectingIOReactor;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -87,28 +85,6 @@ public class BasicNIOConnPool extends AbstractNIOConnPool<HttpHost, NHttpClientC
 
     }
 
-    /**
-     * @deprecated (4.3) use {@link BasicNIOConnPool#BasicNIOConnPool(ConnectingIOReactor, NIOConnFactory, int)}
-     */
-    @Deprecated
-    public BasicNIOConnPool(
-            final ConnectingIOReactor ioReactor,
-            final NIOConnFactory<HttpHost, NHttpClientConnection> connFactory,
-            final HttpParams params) {
-        super(ioReactor, connFactory, 2, 20);
-        Args.notNull(params, "HTTP parameters");
-        this.connectTimeout = params.getIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 0);
-    }
-
-    /**
-     * @deprecated (4.3) use {@link BasicNIOConnPool#BasicNIOConnPool(ConnectingIOReactor,
-     *   ConnectionConfig)}
-     */
-    @Deprecated
-    public BasicNIOConnPool(
-            final ConnectingIOReactor ioReactor, final HttpParams params) {
-        this(ioReactor, new BasicNIOConnFactory(params), params);
-    }
 
     /**
      * @since 4.3

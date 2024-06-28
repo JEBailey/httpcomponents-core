@@ -40,8 +40,8 @@ public class TestNameValuePair {
     @Test
     public void testConstructor() {
         final NameValuePair param = new BasicNameValuePair("name", "value");
-        Assert.assertEquals("name", param.getName());
-        Assert.assertEquals("value", param.getValue());
+        Assert.assertEquals("name", param.name());
+        Assert.assertEquals("value", param.value());
     }
 
     @Test

@@ -213,7 +213,7 @@ class BenchmarkWorker implements Runnable {
         if (response != null) {
             final Header header = response.getFirstHeader("Server");
             if (header != null) {
-                stats.setServerName(header.getValue());
+                stats.setServerName(header.value());
             }
         }
 

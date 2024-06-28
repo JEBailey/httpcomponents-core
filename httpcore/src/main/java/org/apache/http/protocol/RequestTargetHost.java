@@ -58,7 +58,7 @@ public class RequestTargetHost implements HttpRequestInterceptor {
 
     @Override
     public void process(final HttpRequest request, final HttpContext context)
-            throws HttpException, IOException {
+            throws HttpException {
         Args.notNull(request, "HTTP request");
 
         final HttpCoreContext coreContext = HttpCoreContext.adapt(context);

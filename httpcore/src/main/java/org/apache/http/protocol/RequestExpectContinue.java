@@ -38,7 +38,6 @@ import org.apache.http.HttpVersion;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.annotation.Contract;
-import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.Args;
 
 /**
@@ -71,8 +70,7 @@ public class RequestExpectContinue implements HttpRequestInterceptor {
     }
 
     @Override
-    public void process(final HttpRequest request, final HttpContext context)
-            throws HttpException, IOException {
+    public void process(final HttpRequest request, final HttpContext context) {
         Args.notNull(request, "HTTP request");
 
         if (!request.containsHeader(HTTP.EXPECT_DIRECTIVE)) {
@@ -82,9 +80,7 @@ public class RequestExpectContinue implements HttpRequestInterceptor {
                 // Do not send the expect header if request body is known to be empty
                 if (entity != null
                         && entity.getContentLength() != 0 && !ver.lessEquals(HttpVersion.HTTP_1_0)) {
-                    final boolean active = request.getParams().getBooleanParameter(
-                            CoreProtocolPNames.USE_EXPECT_CONTINUE, this.activeByDefault);
-                    if (active) {
+                    if (this.activeByDefault) {
                         request.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
                     }
                 }

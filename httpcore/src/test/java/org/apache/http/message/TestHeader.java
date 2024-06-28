@@ -45,15 +45,15 @@ public class TestHeader {
     @Test
     public void testBasicConstructor() {
         final Header header = new BasicHeader("name", "value");
-        Assert.assertEquals("name", header.getName());
-        Assert.assertEquals("value", header.getValue());
+        Assert.assertEquals("name", header.name());
+        Assert.assertEquals("value", header.value());
     }
 
     @Test
     public void testBasicConstructorNullValue() {
         final Header header = new BasicHeader("name", null);
-        Assert.assertEquals("name", header.getName());
-        Assert.assertEquals(null, header.getValue());
+        Assert.assertEquals("name", header.name());
+        Assert.assertEquals(null, header.value());
     }
 
     @Test
@@ -98,8 +98,8 @@ public class TestHeader {
     public void testCloning() throws Exception {
         final BasicHeader orig = new BasicHeader("name1", "value1");
         final BasicHeader clone = (BasicHeader) orig.clone();
-        Assert.assertEquals(orig.getName(), clone.getName());
-        Assert.assertEquals(orig.getValue(), clone.getValue());
+        Assert.assertEquals(orig.name(), clone.name());
+        Assert.assertEquals(orig.value(), clone.value());
     }
 
     @Test
@@ -113,8 +113,8 @@ public class TestHeader {
         final ByteArrayInputStream inBuffer = new ByteArrayInputStream(raw);
         final ObjectInputStream inStream = new ObjectInputStream(inBuffer);
         final BasicHeader clone = (BasicHeader) inStream.readObject();
-        Assert.assertEquals(orig.getName(), clone.getName());
-        Assert.assertEquals(orig.getValue(), clone.getValue());
+        Assert.assertEquals(orig.name(), clone.name());
+        Assert.assertEquals(orig.value(), clone.value());
     }
 
 }

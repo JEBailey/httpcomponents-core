@@ -27,8 +27,6 @@
 
 package org.apache.http.entity;
 
-import java.io.IOException;
-
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
@@ -187,7 +185,7 @@ public abstract class AbstractHttpEntity implements HttpEntity {
      */
     @Override
     @Deprecated
-    public void consumeContent() throws IOException {
+    public void consumeContent() {
     }
 
     @Override
@@ -196,12 +194,12 @@ public abstract class AbstractHttpEntity implements HttpEntity {
         sb.append('[');
         if (contentType != null) {
             sb.append("Content-Type: ");
-            sb.append(contentType.getValue());
+            sb.append(contentType.value());
             sb.append(',');
         }
         if (contentEncoding != null) {
             sb.append("Content-Encoding: ");
-            sb.append(contentEncoding.getValue());
+            sb.append(contentEncoding.value());
             sb.append(',');
         }
         final long len = getContentLength();

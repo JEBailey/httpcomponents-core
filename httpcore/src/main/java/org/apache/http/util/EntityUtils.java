@@ -122,25 +122,23 @@ public final class EntityUtils {
     public static byte[] toByteArray(final HttpEntity entity) throws IOException {
         Args.notNull(entity, "Entity");
         final InputStream inStream = entity.getContent();
-        if (inStream == null) {
-            return null;
-        }
-        try {
+        try (inStream) {
+            if (inStream == null) {
+                return null;
+            }
             Args.check(entity.getContentLength() <= Integer.MAX_VALUE,
                     "HTTP entity too large to be buffered in memory");
-            int capacity = (int)entity.getContentLength();
+            int capacity = (int) entity.getContentLength();
             if (capacity < 0) {
                 capacity = DEFAULT_BUFFER_SIZE;
             }
             final ByteArrayBuffer buffer = new ByteArrayBuffer(capacity);
             final byte[] tmp = new byte[DEFAULT_BUFFER_SIZE];
             int l;
-            while((l = inStream.read(tmp)) != -1) {
+            while ((l = inStream.read(tmp)) != -1) {
                 buffer.append(tmp, 0, l);
             }
             return buffer.toByteArray();
-        } finally {
-            inStream.close();
         }
     }
 
@@ -163,7 +161,7 @@ public final class EntityUtils {
             if (values.length > 0) {
                 final NameValuePair param = values[0].getParameterByName("charset");
                 if (param != null) {
-                    charset = param.getValue();
+                    charset = param.value();
                 }
             }
         }
@@ -199,13 +197,13 @@ public final class EntityUtils {
             final HttpEntity entity,
             final ContentType contentType) throws IOException {
         final InputStream inStream = entity.getContent();
-        if (inStream == null) {
-            return null;
-        }
-        try {
+        try (inStream) {
+            if (inStream == null) {
+                return null;
+            }
             Args.check(entity.getContentLength() <= Integer.MAX_VALUE,
                     "HTTP entity too large to be buffered in memory");
-            int capacity = (int)entity.getContentLength();
+            int capacity = (int) entity.getContentLength();
             if (capacity < 0) {
                 capacity = DEFAULT_BUFFER_SIZE;
             }
@@ -224,12 +222,10 @@ public final class EntityUtils {
             final CharArrayBuffer buffer = new CharArrayBuffer(capacity);
             final char[] tmp = new char[1024];
             int l;
-            while((l = reader.read(tmp)) != -1) {
+            while ((l = reader.read(tmp)) != -1) {
                 buffer.append(tmp, 0, l);
             }
             return buffer.toString();
-        } finally {
-            inStream.close();
         }
     }
 

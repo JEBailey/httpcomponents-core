@@ -27,15 +27,10 @@
 
 package org.apache.http.protocol;
 
-import java.io.IOException;
-
-import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.annotation.Contract;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -44,7 +39,6 @@ import org.apache.http.util.Args;
  *
  * @since 4.0
  */
-@SuppressWarnings("deprecation")
 @Contract(threading = ThreadingBehavior.IMMUTABLE)
 public class RequestUserAgent implements HttpRequestInterceptor {
 
@@ -60,22 +54,13 @@ public class RequestUserAgent implements HttpRequestInterceptor {
     }
 
     @Override
-    public void process(final HttpRequest request, final HttpContext context)
-        throws HttpException, IOException {
+    public void process(final HttpRequest request, final HttpContext context) {
         Args.notNull(request, "HTTP request");
         if (!request.containsHeader(HTTP.USER_AGENT)) {
-            String s = null;
-            final HttpParams params = request.getParams();
-            if (params != null) {
-                s = (String) params.getParameter(CoreProtocolPNames.USER_AGENT);
-            }
-            if (s == null) {
-                s = this.userAgent;
-            }
+            String s = this.userAgent;
             if (s != null) {
                 request.addHeader(HTTP.USER_AGENT, s);
             }
         }
     }
-
 }

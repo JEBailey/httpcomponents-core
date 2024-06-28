@@ -41,8 +41,7 @@ public final class NetUtils {
             final SocketAddress socketAddress) {
         Args.notNull(buffer, "Buffer");
         Args.notNull(socketAddress, "Socket address");
-        if (socketAddress instanceof InetSocketAddress) {
-            final InetSocketAddress socketaddr = ((InetSocketAddress) socketAddress);
+        if (socketAddress instanceof InetSocketAddress socketaddr) {
             final InetAddress inetaddr = socketaddr.getAddress();
             buffer.append(inetaddr != null ? inetaddr.getHostAddress() : inetaddr)
                 .append(':').append(socketaddr.getPort());

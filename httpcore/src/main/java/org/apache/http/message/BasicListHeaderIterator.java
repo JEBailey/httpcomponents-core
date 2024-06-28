@@ -68,7 +68,7 @@ public class BasicListHeaderIterator implements HeaderIterator {
      * The header name to filter by.
      * {@code null} to iterate over all headers in the array.
      */
-    protected String headerName;
+    protected final String headerName;
 
 
 
@@ -127,7 +127,7 @@ public class BasicListHeaderIterator implements HeaderIterator {
         }
 
         // non-header elements, including null, will trigger exceptions
-        final String name = (this.allHeaders.get(index)).getName();
+        final String name = (this.allHeaders.get(index)).name();
 
         return this.headerName.equalsIgnoreCase(name);
     }

@@ -31,13 +31,11 @@ import java.io.IOException;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderIterator;
-import org.apache.http.HttpException;
 import org.apache.http.HttpMessage;
 import org.apache.http.io.HttpMessageWriter;
 import org.apache.http.io.SessionOutputBuffer;
 import org.apache.http.message.BasicLineFormatter;
 import org.apache.http.message.LineFormatter;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 import org.apache.http.util.CharArrayBuffer;
 
@@ -53,27 +51,6 @@ public abstract class AbstractMessageWriter<T extends HttpMessage> implements Ht
     protected final SessionOutputBuffer sessionBuffer;
     protected final CharArrayBuffer lineBuf;
     protected final LineFormatter lineFormatter;
-
-    /**
-     * Creates an instance of AbstractMessageWriter.
-     *
-     * @param buffer the session output buffer.
-     * @param formatter the line formatter.
-     * @param params HTTP parameters.
-     *
-     * @deprecated (4.3) use
-     *   {@link AbstractMessageWriter#AbstractMessageWriter(SessionOutputBuffer, LineFormatter)}
-     */
-    @Deprecated
-    public AbstractMessageWriter(final SessionOutputBuffer buffer,
-                                 final LineFormatter formatter,
-                                 final HttpParams params) {
-        super();
-        Args.notNull(buffer, "Session input buffer");
-        this.sessionBuffer = buffer;
-        this.lineBuf = new CharArrayBuffer(128);
-        this.lineFormatter = (formatter != null) ? formatter : BasicLineFormatter.INSTANCE;
-    }
 
     /**
      * Creates an instance of AbstractMessageWriter.
@@ -103,7 +80,7 @@ public abstract class AbstractMessageWriter<T extends HttpMessage> implements Ht
     protected abstract void writeHeadLine(T message) throws IOException;
 
     @Override
-    public void write(final T message) throws IOException, HttpException {
+    public void write(final T message) throws IOException {
         Args.notNull(message, "HTTP message");
         writeHeadLine(message);
         for (final HeaderIterator it = message.headerIterator(); it.hasNext(); ) {

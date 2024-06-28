@@ -87,7 +87,7 @@ public class DefaultConnectionReuseStrategy implements ConnectionReuseStrategy {
             final Header clh = response.getFirstHeader(HTTP.CONTENT_LEN);
             if (clh != null) {
                 try {
-                    final int contentLen = Integer.parseInt(clh.getValue());
+                    final int contentLen = Integer.parseInt(clh.value());
                     if (contentLen > 0) {
                         return false;
                     }
@@ -123,7 +123,7 @@ public class DefaultConnectionReuseStrategy implements ConnectionReuseStrategy {
         final ProtocolVersion ver = response.getStatusLine().getProtocolVersion();
         final Header teh = response.getFirstHeader(HTTP.TRANSFER_ENCODING);
         if (teh != null) {
-            if (!HTTP.CHUNK_CODING.equalsIgnoreCase(teh.getValue())) {
+            if (!HTTP.CHUNK_CODING.equalsIgnoreCase(teh.value())) {
                 return false;
             }
         } else {
@@ -133,7 +133,7 @@ public class DefaultConnectionReuseStrategy implements ConnectionReuseStrategy {
                 if (clhs.length == 1) {
                     final Header clh = clhs[0];
                     try {
-                        final long contentLen = Long.parseLong(clh.getValue());
+                        final long contentLen = Long.parseLong(clh.value());
                         if (contentLen < 0) {
                             return false;
                         }

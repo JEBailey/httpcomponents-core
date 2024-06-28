@@ -48,8 +48,8 @@ public class TestBufferedHeader {
         final CharArrayBuffer buf = new CharArrayBuffer(32);
         buf.append("name: value");
         final BufferedHeader header = new BufferedHeader(buf);
-        Assert.assertEquals("name", header.getName());
-        Assert.assertEquals("value", header.getValue());
+        Assert.assertEquals("name", header.name());
+        Assert.assertEquals("value", header.value());
         Assert.assertSame(buf, header.getBuffer());
         Assert.assertEquals(5, header.getValuePos());
     }
@@ -87,8 +87,8 @@ public class TestBufferedHeader {
         buf.append("name: value");
         final BufferedHeader orig = new BufferedHeader(buf);
         final BufferedHeader clone = (BufferedHeader) orig.clone();
-        Assert.assertEquals(orig.getName(), clone.getName());
-        Assert.assertEquals(orig.getValue(), clone.getValue());
+        Assert.assertEquals(orig.name(), clone.name());
+        Assert.assertEquals(orig.value(), clone.value());
     }
 
     @Test
@@ -104,8 +104,8 @@ public class TestBufferedHeader {
         final ByteArrayInputStream inBuffer = new ByteArrayInputStream(raw);
         final ObjectInputStream inStream = new ObjectInputStream(inBuffer);
         final BufferedHeader clone = (BufferedHeader) inStream.readObject();
-        Assert.assertEquals(orig.getName(), clone.getName());
-        Assert.assertEquals(orig.getValue(), clone.getValue());
+        Assert.assertEquals(orig.name(), clone.name());
+        Assert.assertEquals(orig.value(), clone.value());
     }
 
 }

@@ -41,33 +41,19 @@ import org.apache.http.util.LangUtils;
  * @since 4.0
  */
 @Contract(threading = ThreadingBehavior.IMMUTABLE)
-public class BasicNameValuePair implements NameValuePair, Cloneable, Serializable {
+public record BasicNameValuePair(String name, String value) implements NameValuePair, Cloneable, Serializable {
 
     private static final long serialVersionUID = -6437800749411518984L;
-
-    private final String name;
-    private final String value;
 
     /**
      * Default Constructor taking a name and a value. The value may be null.
      *
-     * @param name The name.
+     * @param name  The name.
      * @param value The value.
      */
     public BasicNameValuePair(final String name, final String value) {
-        super();
         this.name = Args.notNull(name, "Name");
         this.value = value;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public String getValue() {
-        return this.value;
     }
 
     @Override
@@ -93,7 +79,7 @@ public class BasicNameValuePair implements NameValuePair, Cloneable, Serializabl
         if (object instanceof NameValuePair) {
             final BasicNameValuePair that = (BasicNameValuePair) object;
             return this.name.equals(that.name)
-                  && LangUtils.equals(this.value, that.value);
+                    && LangUtils.equals(this.value, that.value);
         }
         return false;
     }

@@ -304,8 +304,8 @@ public class BasicLineFormatter implements LineFormatter {
      */
     protected void doFormatHeader(final CharArrayBuffer buffer,
                                   final Header header) {
-        final String name = header.getName();
-        final String value = header.getValue();
+        final String name = header.name();
+        final String value = header.value();
 
         int len = name.length() + 2;
         if (value != null) {

@@ -58,7 +58,7 @@ public class HeaderGroup implements Cloneable, Serializable {
      * Constructor for HeaderGroup.
      */
     public HeaderGroup() {
-        this.headers = new ArrayList<Header>(16);
+        this.headers = new ArrayList<>(16);
     }
 
     /**
@@ -109,7 +109,7 @@ public class HeaderGroup implements Cloneable, Serializable {
         // as that creates an Iterator that needs to be garbage-collected
         for (int i = 0; i < this.headers.size(); i++) {
             final Header current = this.headers.get(i);
-            if (current.getName().equalsIgnoreCase(header.getName())) {
+            if (current.name().equalsIgnoreCase(header.name())) {
                 this.headers.set(i, header);
                 return;
             }
@@ -152,10 +152,10 @@ public class HeaderGroup implements Cloneable, Serializable {
             return hdrs[0];
         } else {
             final CharArrayBuffer valueBuffer = new CharArrayBuffer(128);
-            valueBuffer.append(hdrs[0].getValue());
+            valueBuffer.append(hdrs[0].value());
             for (int i = 1; i < hdrs.length; i++) {
                 valueBuffer.append(", ");
-                valueBuffer.append(hdrs[i].getValue());
+                valueBuffer.append(hdrs[i].value());
             }
 
             return new BasicHeader(name.toLowerCase(Locale.ROOT), valueBuffer.toString());
@@ -177,11 +177,10 @@ public class HeaderGroup implements Cloneable, Serializable {
         // HTTPCORE-361 : we don't use the for-each syntax, i.e.
         //     for (Header header : headers)
         // as that creates an Iterator that needs to be garbage-collected
-        for (int i = 0; i < this.headers.size(); i++) {
-            final Header header = this.headers.get(i);
-            if (header.getName().equalsIgnoreCase(name)) {
+        for (final Header header : this.headers) {
+            if (header.name().equalsIgnoreCase(name)) {
                 if (headersFound == null) {
-                    headersFound = new ArrayList<Header>();
+                    headersFound = new ArrayList<>();
                 }
                 headersFound.add(header);
             }
@@ -201,9 +200,8 @@ public class HeaderGroup implements Cloneable, Serializable {
         // HTTPCORE-361 : we don't use the for-each syntax, i.e.
         //     for (Header header : headers)
         // as that creates an Iterator that needs to be garbage-collected
-        for (int i = 0; i < this.headers.size(); i++) {
-            final Header header = this.headers.get(i);
-            if (header.getName().equalsIgnoreCase(name)) {
+        for (final Header header : this.headers) {
+            if (header.name().equalsIgnoreCase(name)) {
                 return header;
             }
         }
@@ -222,7 +220,7 @@ public class HeaderGroup implements Cloneable, Serializable {
         // start at the end of the list and work backwards
         for (int i = headers.size() - 1; i >= 0; i--) {
             final Header header = headers.get(i);
-            if (header.getName().equalsIgnoreCase(name)) {
+            if (header.name().equalsIgnoreCase(name)) {
                 return header;
             }
         }
@@ -252,9 +250,8 @@ public class HeaderGroup implements Cloneable, Serializable {
         // HTTPCORE-361 : we don't use the for-each syntax, i.e.
         //     for (Header header : headers)
         // as that creates an Iterator that needs to be garbage-collected
-        for (int i = 0; i < this.headers.size(); i++) {
-            final Header header = this.headers.get(i);
-            if (header.getName().equalsIgnoreCase(name)) {
+        for (final Header header : this.headers) {
+            if (header.name().equalsIgnoreCase(name)) {
                 return true;
             }
         }

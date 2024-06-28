@@ -115,7 +115,7 @@ public class ChunkedInputStream extends InputStream {
     }
 
     @Override
-    public int available() throws IOException {
+    public int available() {
         if (this.in instanceof BufferInfo) {
             final int len = ((BufferInfo) this.in).length();
             return (int) Math.min(len, this.chunkSize - this.pos);

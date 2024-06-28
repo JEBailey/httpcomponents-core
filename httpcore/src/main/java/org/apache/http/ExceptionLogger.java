@@ -31,23 +31,11 @@ package org.apache.http;
  */
 public interface ExceptionLogger {
 
-    ExceptionLogger NO_OP = new ExceptionLogger() {
-
-        @Override
-        public void log(final Exception ex) {
-            // do nothing
-        }
-
+    ExceptionLogger NO_OP = ex -> {
+        // do nothing
     };
 
-    ExceptionLogger STD_ERR = new ExceptionLogger() {
-
-        @Override
-        public void log(final Exception ex) {
-            ex.printStackTrace();
-        }
-
-    };
+    ExceptionLogger STD_ERR = ex -> ex.printStackTrace();
 
     void log(Exception ex);
 

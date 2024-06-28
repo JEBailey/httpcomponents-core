@@ -169,7 +169,7 @@ public class BasicTokenIterator implements TokenIterator {
             if (!this.headerIt.hasNext()) {
                 return -1;
             }
-            this.currentHeader = this.headerIt.nextHeader().getValue();
+            this.currentHeader = this.headerIt.nextHeader().value();
             from = 0;
         } else {
             // called after a token, make sure there is a separator
@@ -247,7 +247,7 @@ public class BasicTokenIterator implements TokenIterator {
             }
             if (!found) {
                 if (this.headerIt.hasNext()) {
-                    this.currentHeader = this.headerIt.nextHeader().getValue();
+                    this.currentHeader = this.headerIt.nextHeader().value();
                     from = 0;
                 } else {
                     this.currentHeader = null;
@@ -384,9 +384,7 @@ public class BasicTokenIterator implements TokenIterator {
         }
 
         // no common sense extension for this
-        if (isHttpSeparator(ch)) {
-            return false;
-        }
+        return !isHttpSeparator(ch);
 
         // RFC 2616, section 2.2 defines a token character as
         // "any CHAR except CTLs or separators". The controls
@@ -394,7 +392,6 @@ public class BasicTokenIterator implements TokenIterator {
         // This will yield unexpected results for Unicode format characters.
         // If that is a problem, overwrite isHttpSeparator(char) to filter
         // out the false positives.
-        return true;
     }
 
 

@@ -35,11 +35,11 @@ import org.apache.http.annotation.Contract;
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.impl.nio.reactor.AbstractIODispatch;
+import org.apache.http.nio.NHttpClientConnection;
 import org.apache.http.nio.NHttpClientEventHandler;
 import org.apache.http.nio.NHttpConnectionFactory;
 import org.apache.http.nio.reactor.IOSession;
 import org.apache.http.nio.reactor.ssl.SSLSetupHandler;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -50,10 +50,9 @@ import org.apache.http.util.Args;
  *
  * @since 4.2
  */
-@SuppressWarnings("deprecation")
 @Contract(threading = ThreadingBehavior.IMMUTABLE_CONDITIONAL)
 public class DefaultHttpClientIODispatch<H extends NHttpClientEventHandler>
-                    extends AbstractIODispatch<DefaultNHttpClientConnection> {
+                    extends AbstractIODispatch<NHttpClientConnection> {
 
     /**
      * Creates a new instance of this class to be used for dispatching I/O event
@@ -109,41 +108,6 @@ public class DefaultHttpClientIODispatch<H extends NHttpClientEventHandler>
         this.connectionFactory = Args.notNull(connFactory, "HTTP client connection factory");
     }
 
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpClientIODispatch#DefaultHttpClientIODispatch(
-     *  NHttpClientEventHandler, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpClientIODispatch(
-            final H handler,
-            final HttpParams params) {
-        this(handler, new DefaultNHttpClientConnectionFactory(params));
-    }
-
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpClientIODispatch#DefaultHttpClientIODispatch(
-     *  NHttpClientEventHandler, SSLContext, SSLSetupHandler, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpClientIODispatch(
-            final H handler,
-            final SSLContext sslContext,
-            final SSLSetupHandler sslHandler,
-            final HttpParams params) {
-        this(handler, new SSLNHttpClientConnectionFactory(sslContext, sslHandler, params));
-    }
-
-    /**
-     * @deprecated (4.3) use {@link DefaultHttpClientIODispatch#DefaultHttpClientIODispatch(
-     *   NHttpClientEventHandler, SSLContext, ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultHttpClientIODispatch(
-            final H handler,
-            final SSLContext sslContext,
-            final HttpParams params) {
-        this(handler, sslContext, null, params);
-    }
 
     /**
      * @since 4.3
@@ -198,8 +162,8 @@ public class DefaultHttpClientIODispatch<H extends NHttpClientEventHandler>
         return handler;
     }
 
-    @Override
-    protected void onConnected(final DefaultNHttpClientConnection conn) {
+
+    protected void onConnected(final NHttpClientConnection conn) {
         final Object attachment = conn.getContext().getAttribute(IOSession.ATTACHMENT_KEY);
         try {
             this.handler.connected(conn, attachment);
@@ -208,28 +172,28 @@ public class DefaultHttpClientIODispatch<H extends NHttpClientEventHandler>
         }
     }
 
-    @Override
-    protected void onClosed(final DefaultNHttpClientConnection conn) {
+
+    protected void onClosed(final NHttpClientConnection conn) {
         this.handler.closed(conn);
     }
 
-    @Override
-    protected void onException(final DefaultNHttpClientConnection conn, final IOException ex) {
+
+    protected void onException(final NHttpClientConnection conn, final IOException ex) {
         this.handler.exception(conn, ex);
     }
 
     @Override
-    protected void onInputReady(final DefaultNHttpClientConnection conn) {
+    protected void onInputReady(final NHttpClientConnection conn) {
         conn.consumeInput(this.handler);
     }
 
     @Override
-    protected void onOutputReady(final DefaultNHttpClientConnection conn) {
+    protected void onOutputReady(final NHttpClientConnection conn) {
         conn.produceOutput(this.handler);
     }
 
     @Override
-    protected void onTimeout(final DefaultNHttpClientConnection conn) {
+    protected void onTimeout(final NHttpClientConnection conn) {
         try {
             this.handler.timeout(conn);
         } catch (final Exception ex) {

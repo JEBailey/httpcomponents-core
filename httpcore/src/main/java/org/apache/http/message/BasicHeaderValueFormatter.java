@@ -327,8 +327,8 @@ public class BasicHeaderValueFormatter implements HeaderValueFormatter {
             buffer.ensureCapacity(len);
         }
 
-        buffer.append(nvp.getName());
-        final String value = nvp.getValue();
+        buffer.append(nvp.name());
+        final String value = nvp.value();
         if (value != null) {
             buffer.append('=');
             doFormatValue(buffer, value, quote);
@@ -350,8 +350,8 @@ public class BasicHeaderValueFormatter implements HeaderValueFormatter {
             return 0;
         }
 
-        int result = nvp.getName().length(); // name
-        final String value = nvp.getValue();
+        int result = nvp.name().length(); // name
+        final String value = nvp.value();
         if (value != null) {
             // assume quotes, but no escaped characters
             result += 3 + value.length(); // ="value"

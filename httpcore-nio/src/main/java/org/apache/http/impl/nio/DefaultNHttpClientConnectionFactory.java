@@ -42,8 +42,6 @@ import org.apache.http.nio.NHttpMessageWriterFactory;
 import org.apache.http.nio.reactor.IOSession;
 import org.apache.http.nio.util.ByteBufferAllocator;
 import org.apache.http.nio.util.HeapByteBufferAllocator;
-import org.apache.http.params.HttpParamConfig;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Args;
 
 /**
@@ -65,39 +63,6 @@ public class DefaultNHttpClientConnectionFactory
     private final NHttpMessageWriterFactory<HttpRequest> requestWriterFactory;
     private final ByteBufferAllocator allocator;
     private final ConnectionConfig cconfig;
-
-    /**
-     * @deprecated (4.3) use {@link
-     *   DefaultNHttpClientConnectionFactory#DefaultNHttpClientConnectionFactory(
-     *      NHttpMessageParserFactory, NHttpMessageWriterFactory, ByteBufferAllocator,
-     *      ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultNHttpClientConnectionFactory(
-            final HttpResponseFactory responseFactory,
-            final ByteBufferAllocator allocator,
-            final HttpParams params) {
-        super();
-        Args.notNull(responseFactory, "HTTP response factory");
-        Args.notNull(allocator, "Byte buffer allocator");
-        Args.notNull(params, "HTTP parameters");
-        this.allocator = allocator;
-        this.incomingContentStrategy = null;
-        this.outgoingContentStrategy = null;
-        this.responseParserFactory = new DefaultHttpResponseParserFactory(null, responseFactory);
-        this.requestWriterFactory = null;
-        this.cconfig = HttpParamConfig.getConnectionConfig(params);
-    }
-
-    /**
-     * @deprecated (4.3) use {@link
-     *   DefaultNHttpClientConnectionFactory#DefaultNHttpClientConnectionFactory(
-     *     ConnectionConfig)}
-     */
-    @Deprecated
-    public DefaultNHttpClientConnectionFactory(final HttpParams params) {
-        this(DefaultHttpResponseFactory.INSTANCE, HeapByteBufferAllocator.INSTANCE, params);
-    }
 
     /**
      * @since 4.3
@@ -151,18 +116,6 @@ public class DefaultNHttpClientConnectionFactory
      */
     public DefaultNHttpClientConnectionFactory() {
         this(null, null, null, null, null, null);
-    }
-
-    /**
-     * @deprecated (4.3) no longer used.
-     */
-    @Deprecated
-    protected DefaultNHttpClientConnection createConnection(
-            final IOSession session,
-            final HttpResponseFactory responseFactory,
-            final ByteBufferAllocator allocator,
-            final HttpParams params) {
-        return new DefaultNHttpClientConnection(session, responseFactory, allocator, params);
     }
 
     @Override

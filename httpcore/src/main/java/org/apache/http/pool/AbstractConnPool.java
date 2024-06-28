@@ -94,11 +94,11 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
         this.maxTotal = Args.positive(maxTotal, "Max total value");
         this.lock = new ReentrantLock();
         this.condition = this.lock.newCondition();
-        this.routeToPool = new HashMap<T, RouteSpecificPool<T, C, E>>();
+        this.routeToPool = new HashMap<>();
         this.leased = new HashSet<E>();
         this.available = new LinkedList<E>();
-        this.pending = new LinkedList<Future<E>>();
-        this.maxPerRoute = new HashMap<T, Integer>();
+        this.pending = new LinkedList<>();
+        this.maxPerRoute = new HashMap<>();
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
     /**
      * Shuts down the pool.
      */
-    public void shutdown() throws IOException {
+    public void shutdown() {
         if (this.isShutDown) {
             return ;
         }
@@ -199,7 +199,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
 
             private final AtomicBoolean cancelled = new AtomicBoolean(false);
             private final AtomicBoolean done = new AtomicBoolean(false);
-            private final AtomicReference<E> entryRef = new AtomicReference<E>(null);
+            private final AtomicReference<E> entryRef = new AtomicReference<>(null);
 
             @Override
             public boolean cancel(final boolean mayInterruptIfRunning) {
@@ -443,7 +443,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
 
     private int getMax(final T route) {
         final Integer v = this.maxPerRoute.get(route);
-        return v != null ? v.intValue() : this.defaultMaxPerRoute;
+        return v != null ? v : this.defaultMaxPerRoute;
     }
 
     @Override
@@ -494,7 +494,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
         this.lock.lock();
         try {
             if (max > -1) {
-                this.maxPerRoute.put(route, Integer.valueOf(max));
+                this.maxPerRoute.put(route, max);
             } else {
                 this.maxPerRoute.remove(route);
             }
@@ -553,7 +553,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
     public Set<T> getRoutes() {
         this.lock.lock();
         try {
-            return new HashSet<T>(routeToPool.keySet());
+            return new HashSet<>(routeToPool.keySet());
         } finally {
             this.lock.unlock();
         }
@@ -591,9 +591,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
     protected void enumLeased(final PoolEntryCallback<T, C> callback) {
         this.lock.lock();
         try {
-            final Iterator<E> it = this.leased.iterator();
-            while (it.hasNext()) {
-                final E entry = it.next();
+            for (E entry : this.leased) {
                 callback.process(entry);
             }
         } finally {
@@ -626,15 +624,10 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
             time = 0;
         }
         final long deadline = System.currentTimeMillis() - time;
-        enumAvailable(new PoolEntryCallback<T, C>() {
-
-            @Override
-            public void process(final PoolEntry<T, C> entry) {
-                if (entry.getUpdated() <= deadline) {
-                    entry.close();
-                }
+        enumAvailable(entry -> {
+            if (entry.getUpdated() <= deadline) {
+                entry.close();
             }
-
         });
     }
 
@@ -643,15 +636,10 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
      */
     public void closeExpired() {
         final long now = System.currentTimeMillis();
-        enumAvailable(new PoolEntryCallback<T, C>() {
-
-            @Override
-            public void process(final PoolEntry<T, C> entry) {
-                if (entry.isExpired(now)) {
-                    entry.close();
-                }
+        enumAvailable(entry -> {
+            if (entry.isExpired(now)) {
+                entry.close();
             }
-
         });
     }
 

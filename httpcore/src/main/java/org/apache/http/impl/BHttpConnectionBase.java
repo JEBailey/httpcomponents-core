@@ -121,7 +121,7 @@ public class BHttpConnectionBase implements HttpInetConnection {
             LaxContentLengthStrategy.INSTANCE;
         this.outgoingContentStrategy = outgoingContentStrategy != null ? outgoingContentStrategy :
             StrictContentLengthStrategy.INSTANCE;
-        this.socketHolder = new AtomicReference<Socket>();
+        this.socketHolder = new AtomicReference<>();
     }
 
     protected void ensureOpen() throws IOException {

@@ -40,6 +40,6 @@ import javax.net.ssl.SSLServerSocket;
  */
 public interface SSLServerSetupHandler {
 
-    void initialize(SSLServerSocket socket) throws SSLException;
+    void initialize(SSLServerSocket socket);
 
 }

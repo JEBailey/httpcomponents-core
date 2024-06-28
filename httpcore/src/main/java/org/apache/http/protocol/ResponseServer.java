@@ -60,8 +60,7 @@ public class ResponseServer implements HttpResponseInterceptor {
     }
 
     @Override
-    public void process(final HttpResponse response, final HttpContext context)
-            throws HttpException, IOException {
+    public void process(final HttpResponse response, final HttpContext context) {
         Args.notNull(response, "HTTP response");
         if (!response.containsHeader(HTTP.SERVER_HEADER)) {
             if (this.originServer != null) {

@@ -46,7 +46,6 @@ import org.apache.http.nio.reactor.IOReactorException;
 import org.apache.http.nio.reactor.IOReactorStatus;
 import org.apache.http.nio.reactor.ListenerEndpoint;
 import org.apache.http.nio.reactor.ListeningIOReactor;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Asserts;
 
 /**
@@ -109,26 +108,6 @@ public class DefaultListeningIOReactor extends AbstractMultiworkerIOReactor
         this(null, null);
     }
 
-    /**
-     * @deprecated (4.2) use {@link DefaultListeningIOReactor#DefaultListeningIOReactor(IOReactorConfig, ThreadFactory)}
-     */
-    @Deprecated
-    public DefaultListeningIOReactor(
-            final int workerCount,
-            final ThreadFactory threadFactory,
-            final HttpParams params) throws IOReactorException {
-        this(convert(workerCount, params), threadFactory);
-    }
-
-    /**
-     * @deprecated (4.2) use {@link DefaultListeningIOReactor#DefaultListeningIOReactor(IOReactorConfig)}
-     */
-    @Deprecated
-    public DefaultListeningIOReactor(
-            final int workerCount,
-            final HttpParams params) throws IOReactorException {
-        this(convert(workerCount, params), null);
-    }
 
     @Override
     protected void cancelRequests() throws IOReactorException {

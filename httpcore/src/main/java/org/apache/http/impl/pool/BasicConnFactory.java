@@ -29,9 +29,6 @@ package org.apache.http.impl.pool;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLSocketFactory;
@@ -43,14 +40,8 @@ import org.apache.http.annotation.Contract;
 import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.config.SocketConfig;
-import org.apache.http.impl.DefaultBHttpClientConnection;
 import org.apache.http.impl.DefaultBHttpClientConnectionFactory;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParamConfig;
-import org.apache.http.params.HttpParams;
 import org.apache.http.pool.ConnFactory;
-import org.apache.http.util.Args;
-import org.apache.http.util.Asserts;
 
 /**
  * A very basic {@link ConnFactory} implementation that creates
@@ -59,7 +50,6 @@ import org.apache.http.util.Asserts;
  * @see HttpHost
  * @since 4.2
  */
-@SuppressWarnings("deprecation")
 @Contract(threading = ThreadingBehavior.IMMUTABLE_CONDITIONAL)
 public class BasicConnFactory implements ConnFactory<HttpHost, HttpClientConnection> {
 
@@ -68,32 +58,6 @@ public class BasicConnFactory implements ConnFactory<HttpHost, HttpClientConnect
     private final int connectTimeout;
     private final SocketConfig sconfig;
     private final HttpConnectionFactory<? extends HttpClientConnection> connFactory;
-
-    /**
-     * @deprecated (4.3) use
-     *   {@link BasicConnFactory#BasicConnFactory(SocketFactory, SSLSocketFactory, int,
-     *     SocketConfig, ConnectionConfig)}.
-     */
-    @Deprecated
-    public BasicConnFactory(final SSLSocketFactory sslfactory, final HttpParams params) {
-        super();
-        Args.notNull(params, "HTTP params");
-        this.plainfactory = null;
-        this.sslfactory = sslfactory;
-        this.connectTimeout = params.getIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 0);
-        this.sconfig = HttpParamConfig.getSocketConfig(params);
-        this.connFactory = new DefaultBHttpClientConnectionFactory(
-                HttpParamConfig.getConnectionConfig(params));
-    }
-
-    /**
-     * @deprecated (4.3) use
-     *   {@link BasicConnFactory#BasicConnFactory(int, SocketConfig, ConnectionConfig)}.
-     */
-    @Deprecated
-    public BasicConnFactory(final HttpParams params) {
-        this(null, params);
-    }
 
     /**
      * @since 4.3
@@ -135,17 +99,6 @@ public class BasicConnFactory implements ConnFactory<HttpHost, HttpClientConnect
         this(null, null, 0, SocketConfig.DEFAULT, ConnectionConfig.DEFAULT);
     }
 
-    /**
-     * @deprecated (4.3) no longer used.
-     */
-    @Deprecated
-    protected HttpClientConnection create(final Socket socket, final HttpParams params) throws IOException {
-        final int bufsize = params.getIntParameter(CoreConnectionPNames.SOCKET_BUFFER_SIZE, 8 * 1024);
-        final DefaultBHttpClientConnection conn = new DefaultBHttpClientConnection(bufsize);
-        conn.bind(socket);
-        return conn;
-    }
-
     @Override
     public HttpClientConnection create(final HttpHost host) throws IOException {
         final String scheme = host.getSchemeName();
@@ -184,20 +137,7 @@ public class BasicConnFactory implements ConnFactory<HttpHost, HttpClientConnect
         // Run this under a doPrivileged to support lib users that run under a SecurityManager this allows granting connect permissions
         // only to this library
         final InetSocketAddress address = new InetSocketAddress(hostname, port);
-        try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                @Override
-                public Object run() throws IOException {
-                    socket.connect(address, BasicConnFactory.this.connectTimeout);
-                    return null;
-                }
-            });
-        } catch (final PrivilegedActionException e) {
-            Asserts.check(e.getCause() instanceof IOException,
-                    "method contract violation only checked exceptions are wrapped: " + e.getCause());
-            // only checked exceptions are wrapped - error and RTExceptions are rethrown by doPrivileged
-            throw (IOException) e.getCause();
-        }
+        socket.connect(address, BasicConnFactory.this.connectTimeout);
         return this.connFactory.createConnection(socket);
     }
 

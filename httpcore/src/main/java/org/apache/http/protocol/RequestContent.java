@@ -83,7 +83,7 @@ public class RequestContent implements HttpRequestInterceptor {
 
     @Override
     public void process(final HttpRequest request, final HttpContext context)
-            throws HttpException, IOException {
+            throws HttpException {
         Args.notNull(request, "HTTP request");
         if (request instanceof HttpEntityEnclosingRequest) {
             if (this.overwrite) {

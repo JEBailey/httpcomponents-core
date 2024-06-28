@@ -51,7 +51,7 @@ public class ExpandableBuffer implements BufferInfo, org.apache.http.nio.util.Bu
     private final ByteBufferAllocator allocator;
 
     private int mode;
-    protected ByteBuffer buffer = null;
+    protected ByteBuffer buffer;
 
     /**
      * Allocates buffer of the given size using the given allocator.

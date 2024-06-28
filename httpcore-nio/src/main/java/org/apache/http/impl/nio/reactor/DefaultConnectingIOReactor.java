@@ -35,9 +35,6 @@ import java.net.UnknownHostException;
 import java.nio.channels.CancelledKeyException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -48,7 +45,6 @@ import org.apache.http.nio.reactor.IOReactorException;
 import org.apache.http.nio.reactor.IOReactorStatus;
 import org.apache.http.nio.reactor.SessionRequest;
 import org.apache.http.nio.reactor.SessionRequestCallback;
-import org.apache.http.params.HttpParams;
 import org.apache.http.util.Asserts;
 
 /**
@@ -108,26 +104,6 @@ public class DefaultConnectingIOReactor extends AbstractMultiworkerIOReactor
         this(null, null);
     }
 
-    /**
-     * @deprecated (4.2) use {@link DefaultConnectingIOReactor#DefaultConnectingIOReactor(IOReactorConfig, ThreadFactory)}
-     */
-    @Deprecated
-    public DefaultConnectingIOReactor(
-            final int workerCount,
-            final ThreadFactory threadFactory,
-            final HttpParams params) throws IOReactorException {
-        this(convert(workerCount, params), threadFactory);
-    }
-
-    /**
-     * @deprecated (4.2) use {@link DefaultConnectingIOReactor#DefaultConnectingIOReactor(IOReactorConfig)}
-     */
-    @Deprecated
-    public DefaultConnectingIOReactor(
-            final int workerCount,
-            final HttpParams params) throws IOReactorException {
-        this(convert(workerCount, params), null);
-    }
 
     @Override
     protected void cancelRequests() throws IOReactorException {
@@ -275,23 +251,8 @@ public class DefaultConnectingIOReactor extends AbstractMultiworkerIOReactor
                 }
 
                 final SocketAddress targetAddress = request.getRemoteAddress();
-                // Run this under a doPrivileged to support lib users that run under a SecurityManager this allows granting connect
-                // permissions only to this library
-                final boolean connected;
-                try {
-                    connected = AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Boolean>() {
-                                @Override
-                                public Boolean run() throws IOException {
-                                    return socketChannel.connect(targetAddress);
-                                }
-                            });
-                } catch (final PrivilegedActionException e) {
-                    Asserts.check(e.getCause() instanceof  IOException,
-                            "method contract violation only checked exceptions are wrapped: " + e.getCause());
-                    // only checked exceptions are wrapped - error and RTExceptions are rethrown by doPrivileged
-                    throw (IOException) e.getCause();
-                }
+               var connected =  socketChannel.connect(targetAddress);
+
                 if (connected) {
                     final ChannelEntry entry = new ChannelEntry(socketChannel, request);
                     addChannel(entry);

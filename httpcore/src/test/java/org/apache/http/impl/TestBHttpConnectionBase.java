@@ -178,10 +178,10 @@ public class TestBHttpConnectionBase {
         Assert.assertEquals(10, entity.getContentLength());
         final Header ct = entity.getContentType();
         Assert.assertNotNull(ct);
-        Assert.assertEquals("stuff", ct.getValue());
+        Assert.assertEquals("stuff", ct.value());
         final Header ce = entity.getContentEncoding();
         Assert.assertNotNull(ce);
-        Assert.assertEquals("identity", ce.getValue());
+        Assert.assertEquals("identity", ce.value());
         final InputStream inStream = entity.getContent();
         Assert.assertNotNull(inStream);
         Assert.assertTrue((inStream instanceof ContentLengthInputStream));

@@ -52,8 +52,7 @@ public class RequestConnControl implements HttpRequestInterceptor {
     }
 
     @Override
-    public void process(final HttpRequest request, final HttpContext context)
-            throws HttpException, IOException {
+    public void process(final HttpRequest request, final HttpContext context) {
         Args.notNull(request, "HTTP request");
 
         final String method = request.getRequestLine().getMethod();

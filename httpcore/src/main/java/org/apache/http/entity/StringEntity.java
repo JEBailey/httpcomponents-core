@@ -138,11 +138,8 @@ public class StringEntity extends AbstractHttpEntity implements Cloneable {
      *
      * @param string content to be used. Not {@code null}.
      *
-     * @throws IllegalArgumentException if the string parameter is null
-     * @throws UnsupportedEncodingException if the default HTTP charset is not supported.
      */
-    public StringEntity(final String string)
-            throws UnsupportedEncodingException {
+    public StringEntity(final String string) {
         this(string, ContentType.DEFAULT_TEXT);
     }
 
@@ -157,7 +154,7 @@ public class StringEntity extends AbstractHttpEntity implements Cloneable {
     }
 
     @Override
-    public InputStream getContent() throws IOException {
+    public InputStream getContent() {
         return new ByteArrayInputStream(this.content);
     }
 

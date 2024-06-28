@@ -100,10 +100,10 @@ public class TestChunkDecoder {
 
         final Header[] footers = decoder.getFooters();
         Assert.assertEquals(2, footers.length);
-        Assert.assertEquals("Footer1", footers[0].getName());
-        Assert.assertEquals("abcde", footers[0].getValue());
-        Assert.assertEquals("Footer2", footers[1].getName());
-        Assert.assertEquals("fghij", footers[1].getValue());
+        Assert.assertEquals("Footer1", footers[0].name());
+        Assert.assertEquals("abcde", footers[0].value());
+        Assert.assertEquals("Footer2", footers[1].name());
+        Assert.assertEquals("fghij", footers[1].value());
 
         dst.clear();
         bytesRead = decoder.read(dst);
@@ -204,10 +204,10 @@ public class TestChunkDecoder {
 
         final Header[] footers = decoder.getFooters();
         Assert.assertEquals(2, footers.length);
-        Assert.assertEquals("Footer1", footers[0].getName());
-        Assert.assertEquals("abcde", footers[0].getValue());
-        Assert.assertEquals("Footer2", footers[1].getName());
-        Assert.assertEquals("fghij", footers[1].getValue());
+        Assert.assertEquals("Footer1", footers[0].name());
+        Assert.assertEquals("abcde", footers[0].value());
+        Assert.assertEquals("Footer2", footers[1].name());
+        Assert.assertEquals("fghij", footers[1].value());
 
         dst.clear();
         bytesRead = decoder.read(dst);
@@ -277,8 +277,8 @@ public class TestChunkDecoder {
 
         final Header[] footers = decoder.getFooters();
         Assert.assertEquals(1, footers.length);
-        Assert.assertEquals("Footer1", footers[0].getName());
-        Assert.assertEquals("abcde  fghij", footers[0].getValue());
+        Assert.assertEquals("Footer1", footers[0].name());
+        Assert.assertEquals("abcde  fghij", footers[0].value());
     }
 
     @Test(expected=IOException.class)

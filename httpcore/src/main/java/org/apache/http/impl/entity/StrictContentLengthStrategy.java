@@ -84,7 +84,7 @@ public class StrictContentLengthStrategy implements ContentLengthStrategy {
         // treat it as a single-valued header here.
         final Header transferEncodingHeader = message.getFirstHeader(HTTP.TRANSFER_ENCODING);
         if (transferEncodingHeader != null) {
-            final String s = transferEncodingHeader.getValue();
+            final String s = transferEncodingHeader.value();
             if (HTTP.CHUNK_CODING.equalsIgnoreCase(s)) {
                 if (message.getProtocolVersion().lessEquals(HttpVersion.HTTP_1_0)) {
                     throw new ProtocolException(
@@ -101,7 +101,7 @@ public class StrictContentLengthStrategy implements ContentLengthStrategy {
         }
         final Header contentLengthHeader = message.getFirstHeader(HTTP.CONTENT_LEN);
         if (contentLengthHeader != null) {
-            final String s = contentLengthHeader.getValue();
+            final String s = contentLengthHeader.value();
             try {
                 final long len = Long.parseLong(s);
                 if (len < 0) {
