@@ -24,25 +24,17 @@
    information on the Apache Software Foundation, please see
    <http://www.apache.org />.
  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
-    <!-- Parent 8 -->
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpcomponents-parent</artifactId>
-    <version>11</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>httpcomponents-core</artifactId>
-  <name>Apache HttpComponents Core</name>
-  <version>4.4.17-SNAPSHOT</version>
-  <description>Apache HttpComponents Core is a library of components for building HTTP enabled services</description>
-  <url>http://hc.apache.org/httpcomponents-core-ga</url>
-  <inceptionYear>2005</inceptionYear>
-  <packaging>pom</packaging>
 
-  <organization>
-    <name>The Apache Software Foundation</name>
-    <url>http://www.apache.org/</url>
-  </organization>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.github</groupId>
+  <artifactId>httpcomponents-core</artifactId>
+  <version>4.5.0-SNAPSHOT</version>
+  <name>HttpComponents Core</name>
+
+  <description>HttpComponents Core is a library of components for building HTTP enabled services</description>
+
+  <packaging>pom</packaging>
 
   <licenses>
     <license>
@@ -51,26 +43,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
-  <issueManagement>
-    <system>Jira</system>
-    <url>http://issues.apache.org/jira/browse/HTTPCORE</url>
-  </issueManagement>
-
-  <scm>
-    <connection>scm:git:https://git-wip-us.apache.org/repos/asf/httpcomponents-core.git</connection>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/httpcomponents-core.git</developerConnection>
-    <url>https://github.com/apache/httpcomponents-core/tree/${project.scm.tag}</url>
-    <tag>4.4.17-SNAPSHOT</tag>
-  </scm>
-
-  <distributionManagement>
-    <site>
-      <id>apache.website</id>
-      <name>Apache HttpComponents Website</name>
-      <url>scm:svn:https://svn.apache.org/repos/asf/httpcomponents/site/components/httpcomponents-core-4.4.x/LATEST/</url>
-    </site>
-  </distributionManagement>
 
   <modules>
     <module>httpcore</module>
@@ -86,18 +58,29 @@
     <maven.compiler.showDeprecation>false</maven.compiler.showDeprecation>
     <conscrypt.version>2.2.1</conscrypt.version>
     <junit.version>4.12</junit.version>
-    <mockito.version>1.10.19</mockito.version>
+    <mockito.version>5.3.1</mockito.version>
     <commons-logging.version>1.2</commons-logging.version>
     <api.comparison.version>4.4</api.comparison.version>
+    <!-- compiler source and target must now be defined at component level -->
+    <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.outputTimestamp>2021-01-10T15:31:00Z</project.build.outputTimestamp>
+    <hc.site.url>scp://people.apache.org/www/hc.apache.org/</hc.site.url>
+
+    <!-- Define versions of all report plugins, because they should match usage in pluginManagement and modules -->
+    <hc.japicmp.version>0.16.0</hc.japicmp.version>
+    <hc.javadoc.version>3.4.1</hc.javadoc.version>
+    <hc.surefire.version>3.0.0-M7</hc.surefire.version>
+    <hc.project-info.version>3.4.1</hc.project-info.version>
+    <hc.checkstyle.version>3.2.0</hc.checkstyle.version>
+    <hc.jxr.version>3.3.0</hc.jxr.version>
+    <hc.animal-sniffer.signature.version>1.0</hc.animal-sniffer.signature.version>
+    <hc.animal-sniffer.signature.ignores />
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.conscrypt</groupId>
-        <artifactId>conscrypt-openjdk-uber</artifactId>
-        <version>${conscrypt.version}</version>
-      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -119,7 +102,9 @@
     </dependencies>
   </dependencyManagement>
 
-  <build>
+
+
+<build>
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -128,11 +113,9 @@
             <manifestEntries>
               <Specification-Title>HttpComponents ${project.name}</Specification-Title>
               <Specification-Version>${project.version}</Specification-Version>
-              <Specification-Vendor>The Apache Software Foundation</Specification-Vendor>
               <Implementation-Title>HttpComponents ${project.name}</Implementation-Title>
               <Implementation-Version>${project.version}</Implementation-Version>
-              <Implementation-Vendor>The Apache Software Foundation</Implementation-Vendor>
-              <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              <Implementation-Vendor-Id>io.github</Implementation-Vendor-Id>
               <url>${project.url}</url>
             </manifestEntries>
           </archive>
@@ -254,30 +237,162 @@
           </excludes>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.rat</groupId>
-        <artifactId>apache-rat-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <excludes>
-            <exclude>**/.externalToolBuilders/**</exclude>			
-            <exclude>**/.pmd</exclude>			
-            <exclude>**/maven-eclipse.xml</exclude>
-            <exclude>**/.checkstyle</exclude>
-            <exclude>src/docbkx/resources/**</exclude>
-            <exclude>src/test/resources/*.truststore</exclude>
-            <exclude>src/test/resources/*.p12</exclude>
-          </excludes>
-        </configuration>
-      </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <!-- org.apache.maven.plugins, alpha order by artifact id -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${hc.javadoc.version}</version>
+          <configuration>
+            <!-- reduce console output. Can override with -Dquiet=false -->
+            <quiet>true</quiet>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>${hc.jxr.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>${hc.project-info.version}</version><!-- needed for direct goal use -->
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <phase>pre-site</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${basedir}/target/site/examples</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>src/examples</directory>
+                    <filtering>false</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.12.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-ssh</artifactId>
+              <version>3.4.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              </manifest>
+              <manifestEntries>
+                <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${hc.surefire.version}</version>
+          <configuration>
+            <argLine>
+              --add-opens=java.base/java.net=ALL-UNNAMED
+              --add-opens=java.base/java.lang=ALL-UNNAMED
+            </argLine>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-report-plugin</artifactId>
+          <version>${hc.surefire.version}</version>
+        </plugin>
+        <!-- Other plugins, alpha order by groupId and artifactId -->
+        <plugin>
+          <groupId>com.github.siom79.japicmp</groupId>
+          <artifactId>japicmp-maven-plugin</artifactId>
+          <version>${hc.japicmp.version}</version>
+          <configuration>
+            <oldVersion>
+              <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${api.comparison.version}</version>
+                <type>jar</type>
+              </dependency>
+            </oldVersion>
+            <newVersion>
+              <file>
+                <path>${project.build.directory}/${project.build.finalName}.${project.packaging}</path>
+              </file>
+            </newVersion>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${hc.checkstyle.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.apache.httpcomponents</groupId>
+              <artifactId>hc-stylecheck</artifactId>
+              <version>2</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>validate</id>
+              <phase>validate</phase>
+              <configuration>
+                <configLocation>hc-stylecheck/default.xml</configLocation>
+                <headerLocation>hc-stylecheck/asl2.header</headerLocation>
+                <consoleOutput>true</consoleOutput>
+                <failsOnError>true</failsOnError>
+                <linkXRef>false</linkXRef>
+              </configuration>
+              <goals>
+                <goal>checkstyle</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <reporting>
