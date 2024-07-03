@@ -30,9 +30,6 @@ package io.github.http.nio.protocol;
 import io.github.http.HttpRequest;
 import io.github.http.HttpResponse;
 import io.github.http.HttpVersion;
-import io.github.http.HttpRequest;
-import io.github.http.HttpResponse;
-import io.github.http.HttpVersion;
 import io.github.http.message.BasicRequestLine;
 import io.github.http.protocol.BasicHttpContext;
 import io.github.http.protocol.HttpContext;
@@ -41,8 +38,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.eq;
 
 public class TestBasicAsyncRequestHandler {
 
@@ -93,7 +91,7 @@ public class TestBasicAsyncRequestHandler {
         this.asyncRequestHandler.handle(this.request, this.httpexchange, this.context);
 
         Mockito.verify(this.requestHandler).handle(
-                Matchers.eq(this.request), Matchers.eq(this.response), Matchers.eq(this.context));
+                eq(this.request), eq(this.response), eq(this.context));
         Mockito.verify(this.httpexchange).submitResponse();
     }
 

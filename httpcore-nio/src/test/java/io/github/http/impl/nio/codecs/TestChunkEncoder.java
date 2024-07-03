@@ -36,8 +36,9 @@ import io.github.http.impl.nio.reactor.SessionOutputBufferImpl;
 import io.github.http.nio.reactor.SessionOutputBuffer;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
 
 /**
  * Simple tests for {@link ChunkEncoder}.
@@ -126,7 +127,7 @@ public class TestChunkEncoder {
         Assert.assertEquals(16, encoder.write(CodecTestUtils.wrap("0123456789ABCDEF")));
         Assert.assertEquals(16, encoder.write(CodecTestUtils.wrap("0123456789ABCDEF")));
 
-        Mockito.verify(channel, Mockito.never()).write(Matchers.<ByteBuffer>any());
+        Mockito.verify(channel, Mockito.never()).write(any());
 
         outbuf.flush(channel);
         final String s = channel.dump(Consts.ASCII);

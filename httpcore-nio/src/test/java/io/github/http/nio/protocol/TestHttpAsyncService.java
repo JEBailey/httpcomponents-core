@@ -70,8 +70,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.*;
 
 public class TestHttpAsyncService {
 
@@ -219,7 +220,7 @@ public class TestHttpAsyncService {
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
 
         Mockito.doThrow(new RuntimeException()).when(this.httpProcessor).process(
-                Matchers.any(HttpResponse.class), Matchers.any(HttpContext.class));
+                any(HttpResponse.class), any(HttpContext.class));
         final HttpException httpex = new HttpException();
         try {
             this.protocolHandler.exception(this.conn, httpex);
@@ -253,7 +254,7 @@ public class TestHttpAsyncService {
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
 
         Mockito.doThrow(new IOException()).when(this.httpProcessor).process(
-                Matchers.any(HttpResponse.class), Matchers.any(HttpContext.class));
+                any(HttpResponse.class), any(HttpContext.class));
         final HttpException httpex = new HttpException();
 
         this.protocolHandler.exception(this.conn, httpex);
@@ -303,7 +304,7 @@ public class TestHttpAsyncService {
         final HttpRequest request = new BasicHttpRequest("GET", "/", HttpVersion.HTTP_1_1);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
         Mockito.when(this.requestConsumer.getException()).thenReturn(null);
         final Object data = new Object();
         Mockito.when(this.requestConsumer.getResult()).thenReturn(data);
@@ -317,7 +318,7 @@ public class TestHttpAsyncService {
         Assert.assertNull(incoming);
 
         final ArgumentCaptor<HttpContext> argumentCaptor = ArgumentCaptor.forClass(HttpContext.class);
-        Mockito.verify(this.httpProcessor).process(Matchers.eq(request), argumentCaptor.capture());
+        Mockito.verify(this.httpProcessor).process(eq(request), argumentCaptor.capture());
         final HttpContext exchangeContext = argumentCaptor.getValue();
         Assert.assertNotNull(exchangeContext);
 
@@ -346,7 +347,7 @@ public class TestHttpAsyncService {
         final HttpRequest request = new BasicHttpRequest("GET", "/", HttpVersion.HTTP_1_1);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
         Mockito.when(this.requestConsumer.getException()).thenReturn(null);
         final Object data = new Object();
         Mockito.when(this.requestConsumer.getResult()).thenReturn(data);
@@ -360,11 +361,11 @@ public class TestHttpAsyncService {
         Assert.assertNull(incoming);
 
         Mockito.verify(this.requestConsumer).requestReceived(request);
-        Mockito.verify(this.requestConsumer).requestCompleted(Matchers.<HttpContext>any());
+        Mockito.verify(this.requestConsumer).requestCompleted(any());
         Mockito.verify(this.requestHandler, Mockito.never()).handle(
-                Matchers.any(),
-                Matchers.any(HttpAsyncExchange.class),
-                Matchers.any(HttpContext.class));
+                any(),
+                any(HttpAsyncExchange.class),
+                any(HttpContext.class));
 
         Assert.assertFalse(state.getPipeline().isEmpty());
         final PipelineEntry entry = state.getPipeline().remove();
@@ -391,7 +392,7 @@ public class TestHttpAsyncService {
         final HttpRequest request = new BasicHttpRequest("GET", "/", HttpVersion.HTTP_1_1);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
         Mockito.when(this.requestConsumer.getException()).thenReturn(null);
         final Object data = new Object();
         Mockito.when(this.requestConsumer.getResult()).thenReturn(data);
@@ -405,11 +406,11 @@ public class TestHttpAsyncService {
         Assert.assertNull(incoming);
 
         Mockito.verify(this.requestConsumer).requestReceived(request);
-        Mockito.verify(this.requestConsumer).requestCompleted(Matchers.<HttpContext>any());
+        Mockito.verify(this.requestConsumer).requestCompleted(any());
         Mockito.verify(this.requestHandler, Mockito.never()).handle(
-                Matchers.any(),
-                Matchers.any(HttpAsyncExchange.class),
-                Matchers.any(HttpContext.class));
+                any(),
+                any(HttpAsyncExchange.class),
+                any(HttpContext.class));
 
         Assert.assertFalse(state.getPipeline().isEmpty());
         final PipelineEntry entry1 = state.getPipeline().remove();
@@ -429,7 +430,7 @@ public class TestHttpAsyncService {
         request.setEntity(new NStringEntity("stuff"));
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -451,7 +452,7 @@ public class TestHttpAsyncService {
                 HttpVersion.HTTP_1_1);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -485,7 +486,7 @@ public class TestHttpAsyncService {
         request.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -507,14 +508,9 @@ public class TestHttpAsyncService {
         Mockito.verify(this.httpProcessor).process(request, exchangeContext);
         Mockito.verify(this.requestConsumer).requestReceived(request);
         Mockito.verify(this.conn, Mockito.never()).suspendInput();
-        Mockito.verify(this.conn).submitResponse(Matchers.argThat(new ArgumentMatcher<HttpResponse>() {
-
-            @Override
-            public boolean matches(final Object argument) {
-                final int status = ((HttpResponse) argument).getStatusLine().getStatusCode();
-                return status == 100;
-            }
-
+        Mockito.verify(this.conn).submitResponse(argThat(argument -> {
+            final int status = argument.getStatusLine().getStatusCode();
+            return status == 100;
         }));
     }
 
@@ -533,7 +529,7 @@ public class TestHttpAsyncService {
         request.addHeader(HTTP.EXPECT_DIRECTIVE, HTTP.EXPECT_CONTINUE);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -556,8 +552,8 @@ public class TestHttpAsyncService {
         Mockito.verify(this.requestConsumer).requestReceived(request);
         Mockito.verify(this.conn).suspendInput();
         Mockito.verify(expectationVerifier).verify(
-                Matchers.any(HttpAsyncExchange.class),
-                Matchers.eq(exchangeContext));
+                any(HttpAsyncExchange.class),
+                eq(exchangeContext));
     }
 
     @Test
@@ -617,7 +613,7 @@ public class TestHttpAsyncService {
 
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -649,7 +645,7 @@ public class TestHttpAsyncService {
 
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
 
         this.protocolHandler.requestReceived(this.conn);
 
@@ -677,7 +673,7 @@ public class TestHttpAsyncService {
         Mockito.when(this.conn.getContext()).thenReturn(this.connContext);
         Mockito.when(this.conn.getHttpRequest()).thenReturn(request);
         Mockito.when(this.requestHandler.processRequest(
-                Matchers.eq(request), Matchers.any(HttpContext.class))).thenReturn(this.requestConsumer);
+                eq(request), any(HttpContext.class))).thenReturn(this.requestConsumer);
         Mockito.when(((SessionBufferStatus) this.conn).hasBufferedInput()).thenReturn(Boolean.TRUE);
 
         this.protocolHandler.requestReceived(this.conn);
@@ -1024,14 +1020,9 @@ public class TestHttpAsyncService {
         Assert.assertEquals(MessageState.READY, state.getResponseState());
 
         Mockito.verify(this.conn).requestInput();
-        Mockito.verify(this.conn).submitResponse(Matchers.argThat(new ArgumentMatcher<HttpResponse>() {
-
-            @Override
-            public boolean matches(final Object argument) {
-                final int status = ((HttpResponse) argument).getStatusLine().getStatusCode();
-                return status == 100;
-            }
-
+        Mockito.verify(this.conn).submitResponse(argThat(argument -> {
+            final int status = argument.getStatusLine().getStatusCode();
+            return status == 100;
         }));
     }
 
@@ -1103,8 +1094,8 @@ public class TestHttpAsyncService {
         Assert.assertNull(state.getOutgoing());
 
         final ArgumentCaptor<HttpAsyncExchange> argCaptor = ArgumentCaptor.forClass(HttpAsyncExchange.class);
-        Mockito.verify(this.requestHandler).handle(Matchers.same(request),
-                argCaptor.capture(), Matchers.same(exchangeContext));
+        Mockito.verify(this.requestHandler).handle(same(request),
+                argCaptor.capture(), same(exchangeContext));
         final HttpAsyncExchange exchange = argCaptor.getValue();
 
         Assert.assertNotNull(exchange);
@@ -1138,9 +1129,9 @@ public class TestHttpAsyncService {
         Assert.assertNotNull(response);
         Assert.assertEquals(500, response.getStatusLine().getStatusCode());
 
-        Mockito.verify(this.requestHandler, Mockito.never()).handle(Matchers.<HttpRequest>any(),
-                Matchers.<HttpAsyncExchange>any(), Matchers.<HttpContext>any());
-        Mockito.verify(this.conn).submitResponse(Matchers.same(response));
+        Mockito.verify(this.requestHandler, Mockito.never()).handle(any(),
+                any(), any());
+        Mockito.verify(this.conn).submitResponse(same(response));
     }
 
     @Test(expected=HttpException.class)
@@ -1319,7 +1310,7 @@ public class TestHttpAsyncService {
 
         this.protocolHandler.endOfInput(this.conn);
 
-        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(Matchers.anyInt());
+        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(anyInt());
         Mockito.verify(this.conn).close();
     }
 
@@ -1349,7 +1340,7 @@ public class TestHttpAsyncService {
         this.protocolHandler.timeout(this.conn);
 
         Mockito.verify(this.conn, Mockito.atLeastOnce()).close();
-        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(Matchers.anyInt());
+        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(anyInt());
     }
 
     @Test
@@ -1388,9 +1379,9 @@ public class TestHttpAsyncService {
         this.protocolHandler.timeout(this.conn);
 
         Mockito.verify(this.conn).shutdown();
-        Mockito.verify(this.requestConsumer).failed(Matchers.any(SocketTimeoutException.class));
+        Mockito.verify(this.requestConsumer).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.requestConsumer).close();
-        Mockito.verify(this.responseProducer).failed(Matchers.any(SocketTimeoutException.class));
+        Mockito.verify(this.responseProducer).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.responseProducer).close();
     }
 

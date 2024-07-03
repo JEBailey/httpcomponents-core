@@ -35,12 +35,6 @@ import io.github.http.HttpRequest;
 import io.github.http.HttpVersion;
 import io.github.http.message.BasicHttpRequest;
 import io.github.http.message.BasicHttpResponse;
-import io.github.http.ConnectionClosedException;
-import io.github.http.ConnectionReuseStrategy;
-import io.github.http.HttpRequest;
-import io.github.http.HttpVersion;
-import io.github.http.message.BasicHttpRequest;
-import io.github.http.message.BasicHttpResponse;
 import io.github.http.nio.ContentDecoder;
 import io.github.http.nio.ContentEncoder;
 import io.github.http.nio.NHttpClientConnection;
@@ -52,8 +46,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
+
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
 
 public class TestBasicAsyncClientExchangeHandler {
 
@@ -103,10 +99,10 @@ public class TestBasicAsyncClientExchangeHandler {
                     this.httpProcessor,
                     this.reuseStrategy);
             Assert.fail("IllegalArgumentException expected");
-        } catch (final IllegalArgumentException ex) {
+        } catch (final IllegalArgumentException ignored) {
         }
         try {
-            new BasicAsyncClientExchangeHandler<Object>(
+            new BasicAsyncClientExchangeHandler<>(
                     this.requestProducer,
                     null,
                     null,
@@ -130,7 +126,7 @@ public class TestBasicAsyncClientExchangeHandler {
         } catch (final IllegalArgumentException ex) {
         }
         try {
-            new BasicAsyncClientExchangeHandler<Object>(
+            new BasicAsyncClientExchangeHandler<>(
                     this.requestProducer,
                     this.responseConsumer,
                     null,
@@ -142,7 +138,7 @@ public class TestBasicAsyncClientExchangeHandler {
         } catch (final IllegalArgumentException ex) {
         }
         try {
-            new BasicAsyncClientExchangeHandler<Object>(
+            new BasicAsyncClientExchangeHandler<>(
                     this.requestProducer,
                     this.responseConsumer,
                     null,
@@ -349,11 +345,11 @@ public class TestBasicAsyncClientExchangeHandler {
     @Test
     public void testInputTerminated() throws Exception {
         this.exchangeHandler.inputTerminated();
-        Mockito.verify(this.responseConsumer).failed(Matchers.<ConnectionClosedException>any());
+        Mockito.verify(this.responseConsumer).failed((ConnectionClosedException)any());
         try {
             this.exchangeHandler.getFuture().get();
             Assert.fail("ExecutionException expected");
-        } catch (final ExecutionException exex) {
+        } catch (final ExecutionException ignored) {
         }
     }
 

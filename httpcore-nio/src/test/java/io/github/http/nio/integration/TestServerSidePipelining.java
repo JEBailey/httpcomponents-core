@@ -36,6 +36,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 import io.github.http.HttpRequest;
 import io.github.http.HttpResponse;
@@ -66,6 +67,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static java.nio.charset.StandardCharsets.US_ASCII;
+
 /**
  * Tests for handling pipelined requests.
  */
@@ -90,39 +93,23 @@ public class TestServerSidePipelining extends HttpCoreNIOTestBase {
             }
 
         }));
-        this.server.registerHandler("/goodbye", new BasicAsyncRequestHandler(new HttpRequestHandler() {
-
-            @Override
-            public void handle(
-                    final HttpRequest request,
-                    final HttpResponse response,
-                    final HttpContext context) throws HttpException, IOException {
-                final String content = "and goodbye";
-                final NStringEntity entity = new NStringEntity(content, ContentType.DEFAULT_TEXT);
-                response.setEntity(entity);
-                response.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
-            }
-
+        this.server.registerHandler("/goodbye", new BasicAsyncRequestHandler((request, response, context) -> {
+            final String content = "and goodbye";
+            final NStringEntity entity = new NStringEntity(content, ContentType.DEFAULT_TEXT);
+            response.setEntity(entity);
+            response.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_CLOSE);
         }));
-        this.server.registerHandler("/echo", new BasicAsyncRequestHandler(new HttpRequestHandler() {
-
-            @Override
-            public void handle(
-                    final HttpRequest request,
-                    final HttpResponse response,
-                    final HttpContext context) throws HttpException, IOException {
-                final HttpEntity responseEntity;
-                if (request instanceof HttpEntityEnclosingRequest) {
-                    final HttpEntity requestEntity = ((HttpEntityEnclosingRequest) request).getEntity();
-                    final ContentType contentType = ContentType.getOrDefault(requestEntity);
-                    responseEntity = new NByteArrayEntity(
-                            EntityUtils.toByteArray(requestEntity), contentType);
-                } else {
-                    responseEntity = new NStringEntity("Say what?", ContentType.DEFAULT_TEXT);
-                }
-                response.setEntity(responseEntity);
+        this.server.registerHandler("/echo", new BasicAsyncRequestHandler((request, response, context) -> {
+            final HttpEntity responseEntity;
+            if (request instanceof HttpEntityEnclosingRequest) {
+                final HttpEntity requestEntity = ((HttpEntityEnclosingRequest) request).getEntity();
+                final ContentType contentType = ContentType.getOrDefault(requestEntity);
+                responseEntity = new NByteArrayEntity(
+                        EntityUtils.toByteArray(requestEntity), contentType);
+            } else {
+                responseEntity = new NStringEntity("Say what?", ContentType.DEFAULT_TEXT);
             }
-
+            response.setEntity(responseEntity);
         }));
     }
 
@@ -142,7 +129,7 @@ public class TestServerSidePipelining extends HttpCoreNIOTestBase {
         final Socket socket = new Socket("localhost", address.getPort());
         try {
             final OutputStream outStream = socket.getOutputStream();
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, "US-ASCII"));
+            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, US_ASCII));
             writer.write("GET / HTTP/1.1\r\n");
             writer.write("Host: localhost\r\n");
             writer.write("\r\n");
@@ -212,7 +199,7 @@ public class TestServerSidePipelining extends HttpCoreNIOTestBase {
         final Socket socket = new Socket("localhost", address.getPort());
         try {
             final OutputStream outStream = socket.getOutputStream();
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, "US-ASCII"));
+            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, US_ASCII));
             writer.write("POST /echo HTTP/1.1\r\n");
             writer.write("Host: localhost\r\n");
             writer.write("Content-Length: 16\r\n");
@@ -291,7 +278,7 @@ public class TestServerSidePipelining extends HttpCoreNIOTestBase {
         final Socket socket = new Socket("localhost", address.getPort());
         try {
             final OutputStream outStream = socket.getOutputStream();
-            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, "US-ASCII"));
+            final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream, US_ASCII));
             writer.write("POST /echo HTTP/1.1\r\n");
             writer.write("Host: localhost\r\n");
             writer.write("Expect: 100-Continue\r\n");

@@ -57,8 +57,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
+
+import static org.mockito.ArgumentMatchers.any;
 
 public class TestHttpAsyncRequestExecutor {
 
@@ -136,7 +137,7 @@ public class TestHttpAsyncRequestExecutor {
 
         this.protocolHandler.closed(this.conn);
 
-        Mockito.verify(this.exchangeHandler).failed(Matchers.any(ConnectionClosedException.class));
+        Mockito.verify(this.exchangeHandler).failed(any(ConnectionClosedException.class));
     }
 
     @Test
@@ -200,7 +201,7 @@ public class TestHttpAsyncRequestExecutor {
         Assert.assertNull(state.getRequest());
 
         Mockito.verify(this.conn, Mockito.times(1)).suspendOutput();
-        Mockito.verify(this.conn, Mockito.never()).submitRequest(Matchers.<HttpRequest>any());
+        Mockito.verify(this.conn, Mockito.never()).submitRequest(any());
     }
 
     @Test
@@ -617,7 +618,7 @@ public class TestHttpAsyncRequestExecutor {
         Assert.assertFalse(state.isValid());
 
         Mockito.verify(this.conn).close();
-        Mockito.verify(this.exchangeHandler).failed(Matchers.any(ConnectionClosedException.class));
+        Mockito.verify(this.exchangeHandler).failed(any(ConnectionClosedException.class));
     }
 
     @Test
@@ -676,10 +677,10 @@ public class TestHttpAsyncRequestExecutor {
 
         Assert.assertEquals(MessageState.BODY_STREAM, state.getRequestState());
         Assert.assertFalse(state.isValid());
-        Mockito.verify(this.exchangeHandler).failed(Matchers.any(SocketTimeoutException.class));
+        Mockito.verify(this.exchangeHandler).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.exchangeHandler).close();
         Mockito.verify(this.conn).close();
-        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(Matchers.anyInt());
+        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(any());
     }
 
     @Test
@@ -694,7 +695,7 @@ public class TestHttpAsyncRequestExecutor {
 
         Assert.assertEquals(MessageState.BODY_STREAM, state.getRequestState());
         Assert.assertFalse(state.isValid());
-        Mockito.verify(this.exchangeHandler).failed(Matchers.any(SocketTimeoutException.class));
+        Mockito.verify(this.exchangeHandler).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.exchangeHandler).close();
         Mockito.verify(this.conn).close();
         Mockito.verify(this.conn).setSocketTimeout(250);
@@ -712,7 +713,7 @@ public class TestHttpAsyncRequestExecutor {
 
         Assert.assertEquals(MessageState.BODY_STREAM, state.getRequestState());
         Assert.assertFalse(state.isValid());
-        Mockito.verify(this.exchangeHandler).failed(Matchers.any(SocketTimeoutException.class));
+        Mockito.verify(this.exchangeHandler).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.exchangeHandler).close();
         Mockito.verify(this.conn).shutdown();
     }

@@ -39,7 +39,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -47,6 +46,9 @@ import org.mockito.MockitoAnnotations;
 import java.net.SocketAddress;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 public class TestBasicNIOConnPool {
 
@@ -80,7 +82,7 @@ public class TestBasicNIOConnPool {
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
 
         route = new HttpHost("localhost", 80, "http");
         connFactory = new BasicNIOConnFactory(ConnectionConfig.DEFAULT);
@@ -115,10 +117,10 @@ public class TestBasicNIOConnPool {
         Mockito.when(sessionRequest.getSession()).thenReturn(session);
         Mockito.when(sessionRequest.getAttachment()).thenReturn(host);
         Mockito.when(reactor.connect(
-                Matchers.any(SocketAddress.class),
-                Matchers.any(SocketAddress.class),
-                Matchers.eq(host),
-                Matchers.any(SessionRequestCallback.class))).
+                any(SocketAddress.class),
+                any(SocketAddress.class),
+                eq(host),
+                any(SessionRequestCallback.class))).
                 thenReturn(sessionRequest);
 
         Mockito.when(session.getSocketTimeout()).thenReturn(999);
