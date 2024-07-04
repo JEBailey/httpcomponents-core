@@ -281,11 +281,9 @@ public class BHttpConnectionBase implements HttpInetConnection {
         final Socket socket = this.socketHolder.getAndSet(null);
         if (socket != null) {
             // force abortive close (RST)
-            try {
+            try (socket) {
                 socket.setSoLinger(true, 0);
-            } catch (final IOException ex) {
-            } finally {
-                socket.close();
+            } catch (final IOException ignored) {
             }
         }
     }
@@ -294,11 +292,9 @@ public class BHttpConnectionBase implements HttpInetConnection {
     public void close() throws IOException {
         final Socket socket = this.socketHolder.getAndSet(null);
         if (socket != null) {
-            try {
+            try (socket) {
                 this.inBuffer.clear();
                 this.outbuffer.flush();
-            } finally {
-                socket.close();
             }
         }
     }

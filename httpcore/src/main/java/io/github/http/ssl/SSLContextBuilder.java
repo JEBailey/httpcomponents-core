@@ -227,11 +227,8 @@ public class SSLContextBuilder {
             final TrustStrategy trustStrategy) throws NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException {
         Args.notNull(file, "Truststore file");
         final KeyStore trustStore = KeyStore.getInstance(keyStoreType);
-        final FileInputStream inStream = new FileInputStream(file);
-        try {
+        try (FileInputStream inStream = new FileInputStream(file)) {
             trustStore.load(inStream, storePassword);
-        } finally {
-            inStream.close();
         }
         return loadTrustMaterial(trustStore, trustStrategy);
     }
@@ -253,11 +250,8 @@ public class SSLContextBuilder {
             final TrustStrategy trustStrategy) throws NoSuchAlgorithmException, KeyStoreException, CertificateException, IOException {
         Args.notNull(url, "Truststore URL");
         final KeyStore trustStore = KeyStore.getInstance(keyStoreType);
-        final InputStream inStream = url.openStream();
-        try {
+        try (InputStream inStream = url.openStream()) {
             trustStore.load(inStream, storePassword);
-        } finally {
-            inStream.close();
         }
         return loadTrustMaterial(trustStore, trustStrategy);
     }
@@ -305,11 +299,8 @@ public class SSLContextBuilder {
             final PrivateKeyStrategy aliasStrategy) throws NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException, CertificateException, IOException {
         Args.notNull(file, "Keystore file");
         final KeyStore identityStore = KeyStore.getInstance(keyStoreType);
-        final FileInputStream inStream = new FileInputStream(file);
-        try {
+        try (FileInputStream inStream = new FileInputStream(file)) {
             identityStore.load(inStream, storePassword);
-        } finally {
-            inStream.close();
         }
         return loadKeyMaterial(identityStore, keyPassword, aliasStrategy);
     }
@@ -328,11 +319,8 @@ public class SSLContextBuilder {
             final PrivateKeyStrategy aliasStrategy) throws NoSuchAlgorithmException, KeyStoreException, UnrecoverableKeyException, CertificateException, IOException {
         Args.notNull(url, "Keystore URL");
         final KeyStore identityStore = KeyStore.getInstance(keyStoreType);
-        final InputStream inStream = url.openStream();
-        try {
+        try (InputStream inStream = url.openStream()) {
             identityStore.load(inStream, storePassword);
-        } finally {
-            inStream.close();
         }
         return loadKeyMaterial(identityStore, keyPassword, aliasStrategy);
     }
@@ -350,8 +338,8 @@ public class SSLContextBuilder {
             final Collection<TrustManager> trustManagers,
             final SecureRandom secureRandom) throws KeyManagementException {
         sslContext.init(
-                !keyManagers.isEmpty() ? keyManagers.toArray(new KeyManager[keyManagers.size()]) : null,
-                !trustManagers.isEmpty() ? trustManagers.toArray(new TrustManager[trustManagers.size()]) : null,
+                !keyManagers.isEmpty() ? keyManagers.toArray(new KeyManager[0]) : null,
+                !trustManagers.isEmpty() ? trustManagers.toArray(new TrustManager[0]) : null,
                 secureRandom);
     }
 

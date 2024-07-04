@@ -27,15 +27,12 @@
 
 package io.github.http.protocol;
 
+import io.github.http.annotation.Contract;
+import io.github.http.annotation.ThreadingBehavior;
+import io.github.http.util.Args;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import io.github.http.annotation.Contract;
-import io.github.http.annotation.ThreadingBehavior;
-import io.github.http.util.Args;
-import io.github.http.annotation.ThreadingBehavior;
-import io.github.http.annotation.Contract;
-import io.github.http.util.Args;
 
 /**
  * Default implementation of {@link HttpContext}.

@@ -27,11 +27,7 @@
 
 package io.github.http.message;
 
-import io.github.http.Header;
-import io.github.http.HttpEntity;
-import io.github.http.HttpEntityEnclosingRequest;
-import io.github.http.ProtocolVersion;
-import io.github.http.RequestLine;
+import io.github.http.*;
 import io.github.http.protocol.HTTP;
 
 /**

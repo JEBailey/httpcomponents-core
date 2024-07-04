@@ -267,7 +267,7 @@ public final class ContentType implements Serializable {
                 break;
             }
         }
-        return new ContentType(mimeType, charset, params != null && params.length > 0 ? params : null);
+        return new ContentType(mimeType, charset, params.length > 0 ? params : null);
     }
 
     /**
@@ -465,7 +465,7 @@ public final class ContentType implements Serializable {
         for (final Map.Entry<String, String> entry: paramMap.entrySet()) {
             newParams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
         }
-        return create(this.getMimeType(), newParams.toArray(new NameValuePair[newParams.size()]), true);
+        return create(this.getMimeType(), newParams.toArray(new NameValuePair[0]), true);
     }
 
 }

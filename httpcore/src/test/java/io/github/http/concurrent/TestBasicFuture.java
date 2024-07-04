@@ -38,8 +38,8 @@ public class TestBasicFuture {
 
     @Test
     public void testCompleted() throws Exception {
-        final BasicFutureCallback<Object> callback = new BasicFutureCallback<Object>();
-        final BasicFuture<Object> future = new BasicFuture<Object>(callback);
+        final BasicFutureCallback<Object> callback = new BasicFutureCallback<>();
+        final BasicFuture<Object> future = new BasicFuture<>(callback);
 
         Assert.assertFalse(future.isDone());
 
@@ -106,8 +106,8 @@ public class TestBasicFuture {
 
     @Test
     public void testCancelled() throws Exception {
-        final BasicFutureCallback<Object> callback = new BasicFutureCallback<Object>();
-        final BasicFuture<Object> future = new BasicFuture<Object>(callback);
+        final BasicFutureCallback<Object> callback = new BasicFutureCallback<>();
+        final BasicFuture<Object> future = new BasicFuture<>(callback);
         final Object result = new Object();
         final Exception boom = new Exception();
         future.cancel(true);
@@ -130,7 +130,7 @@ public class TestBasicFuture {
 
     @Test
     public void testAsyncCompleted() throws Exception {
-        final BasicFuture<Object> future = new BasicFuture<Object>(null);
+        final BasicFuture<Object> future = new BasicFuture<>(null);
         final Object result = new Object();
 
         final Thread t = new Thread() {

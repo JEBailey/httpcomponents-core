@@ -27,8 +27,6 @@
 
 package io.github.http.protocol;
 
-import java.io.IOException;
-
 import io.github.http.*;
 import io.github.http.annotation.Contract;
 import io.github.http.annotation.ThreadingBehavior;
@@ -38,27 +36,8 @@ import io.github.http.impl.DefaultHttpResponseFactory;
 import io.github.http.util.Args;
 import io.github.http.util.EncodingUtils;
 import io.github.http.util.EntityUtils;
-import io.github.http.ConnectionReuseStrategy;
-import io.github.http.HttpEntity;
-import io.github.http.HttpEntityEnclosingRequest;
-import io.github.http.HttpException;
-import io.github.http.HttpRequest;
-import io.github.http.HttpResponse;
-import io.github.http.HttpResponseFactory;
-import io.github.http.HttpServerConnection;
-import io.github.http.HttpStatus;
-import io.github.http.HttpVersion;
-import io.github.http.MethodNotSupportedException;
-import io.github.http.ProtocolException;
-import io.github.http.UnsupportedHttpVersionException;
-import io.github.http.annotation.Contract;
-import io.github.http.annotation.ThreadingBehavior;
-import io.github.http.entity.ByteArrayEntity;
-import io.github.http.impl.DefaultConnectionReuseStrategy;
-import io.github.http.impl.DefaultHttpResponseFactory;
-import io.github.http.util.Args;
-import io.github.http.util.EncodingUtils;
-import io.github.http.util.EntityUtils;
+
+import java.io.IOException;
 
 /**
  * {@code HttpService} is a server side HTTP protocol handler based on
@@ -85,11 +64,11 @@ public class HttpService {
     /**
      * TODO: make all variables final in the next major version
      */
-    private volatile HttpProcessor processor = null;
-    private volatile HttpRequestHandlerMapper handlerMapper = null;
-    private volatile ConnectionReuseStrategy connStrategy = null;
-    private volatile HttpResponseFactory responseFactory = null;
-    private volatile HttpExpectationVerifier expectationVerifier = null;
+    private volatile HttpProcessor processor;
+    private volatile HttpRequestHandlerMapper handlerMapper;
+    private volatile ConnectionReuseStrategy connStrategy;
+    private volatile HttpResponseFactory responseFactory;
+    private volatile HttpExpectationVerifier expectationVerifier;
 
 
 

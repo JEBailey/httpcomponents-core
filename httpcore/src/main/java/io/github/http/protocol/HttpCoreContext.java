@@ -32,11 +32,6 @@ import io.github.http.HttpHost;
 import io.github.http.HttpRequest;
 import io.github.http.HttpResponse;
 import io.github.http.util.Args;
-import io.github.http.HttpConnection;
-import io.github.http.HttpHost;
-import io.github.http.HttpRequest;
-import io.github.http.HttpResponse;
-import io.github.http.util.Args;
 
 /**
  * Implementation of {@link HttpContext} that provides convenience
@@ -138,7 +133,7 @@ public class HttpCoreContext implements HttpContext {
 
     public boolean isRequestSent() {
         final Boolean b = getAttribute(HTTP_REQ_SENT, Boolean.class);
-        return b != null && b.booleanValue();
+        return b != null && b;
     }
 
     public HttpResponse getResponse() {

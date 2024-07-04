@@ -27,10 +27,9 @@
 
 package io.github.http.protocol;
 
-import java.nio.charset.Charset;
+import io.github.http.Consts;
 
-import io.github.http.Consts;
-import io.github.http.Consts;
+import java.nio.charset.Charset;
 
 /**
  * Constants and static helpers related to the HTTP protocol.

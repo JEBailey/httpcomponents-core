@@ -155,7 +155,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
     private RouteSpecificPool<T, C, E> getPool(final T route) {
         RouteSpecificPool<T, C, E> pool = this.routeToPool.get(route);
         if (pool == null) {
-            pool = new RouteSpecificPool<T, C, E>(route) {
+            pool = new RouteSpecificPool<>(route) {
 
                 @Override
                 protected E createEntry(final C conn) {
@@ -185,7 +185,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
         Args.notNull(route, "Route");
         Asserts.check(!this.isShutDown, "Connection pool shut down");
 
-        return new Future<E>() {
+        return new Future<>() {
 
             private final AtomicBoolean cancelled = new AtomicBoolean(false);
             private final AtomicBoolean done = new AtomicBoolean(false);
@@ -230,7 +230,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
 
             @Override
             public E get(final long timeout, final TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
-                for (;;) {
+                for (; ; ) {
                     synchronized (this) {
                         try {
                             final E entry = entryRef.get();
@@ -241,7 +241,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
                                 throw new ExecutionException(operationAborted());
                             }
                             final E leasedEntry = getPoolEntryBlocking(route, state, timeout, timeUnit, this);
-                            if (validateAfterInactivity > 0)  {
+                            if (validateAfterInactivity > 0) {
                                 if (leasedEntry.getUpdated() + validateAfterInactivity <= System.currentTimeMillis()) {
                                     if (!validate(leasedEntry)) {
                                         leasedEntry.close();
@@ -371,7 +371,7 @@ public abstract class AbstractConnPool<T, C, E extends PoolEntry<T, C>>
                     }
                 }
 
-                boolean success = false;
+                boolean success;
                 try {
                     pool.queue(future);
                     this.pending.add(future);

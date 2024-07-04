@@ -185,7 +185,7 @@ public class HeaderGroup implements Cloneable, Serializable {
                 headersFound.add(header);
             }
         }
-        return headersFound != null ? headersFound.toArray(new Header[headersFound.size()]) : EMPTY;
+        return headersFound != null ? headersFound.toArray(new Header[0]) : EMPTY;
     }
 
     /**
@@ -234,7 +234,7 @@ public class HeaderGroup implements Cloneable, Serializable {
      * @return an array of length &ge; 0
      */
     public Header[] getAllHeaders() {
-        return headers.toArray(new Header[headers.size()]);
+        return headers.toArray(new Header[0]);
     }
 
     /**

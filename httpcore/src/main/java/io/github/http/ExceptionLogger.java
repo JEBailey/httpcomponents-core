@@ -35,7 +35,7 @@ public interface ExceptionLogger {
         // do nothing
     };
 
-    ExceptionLogger STD_ERR = ex -> ex.printStackTrace();
+    ExceptionLogger STD_ERR = Throwable::printStackTrace;
 
     void log(Exception ex);
 

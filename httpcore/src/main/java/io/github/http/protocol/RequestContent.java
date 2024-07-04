@@ -27,22 +27,9 @@
 
 package io.github.http.protocol;
 
-import java.io.IOException;
-
 import io.github.http.*;
 import io.github.http.annotation.Contract;
 import io.github.http.annotation.ThreadingBehavior;
-import io.github.http.util.Args;
-import io.github.http.HttpEntity;
-import io.github.http.HttpEntityEnclosingRequest;
-import io.github.http.HttpException;
-import io.github.http.HttpRequest;
-import io.github.http.HttpRequestInterceptor;
-import io.github.http.HttpVersion;
-import io.github.http.ProtocolException;
-import io.github.http.ProtocolVersion;
-import io.github.http.annotation.ThreadingBehavior;
-import io.github.http.annotation.Contract;
 import io.github.http.util.Args;
 
 /**

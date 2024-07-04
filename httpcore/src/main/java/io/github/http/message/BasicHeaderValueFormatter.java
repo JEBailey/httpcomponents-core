@@ -29,8 +29,8 @@ package io.github.http.message;
 
 import io.github.http.HeaderElement;
 import io.github.http.NameValuePair;
-import io.github.http.annotation.ThreadingBehavior;
 import io.github.http.annotation.Contract;
+import io.github.http.annotation.ThreadingBehavior;
 import io.github.http.util.Args;
 import io.github.http.util.CharArrayBuffer;
 

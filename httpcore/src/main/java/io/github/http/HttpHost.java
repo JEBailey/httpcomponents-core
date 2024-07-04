@@ -52,14 +52,14 @@ public final class HttpHost implements Cloneable, Serializable {
     public static final String DEFAULT_SCHEME_NAME = "http";
 
     /** The host to use. */
-    protected final String hostname;
+    private final String hostname;
 
     /** The lowercase host, for {@link #equals} and {@link #hashCode}. */
-    protected final String lcHostname;
+    private final String lcHostname;
 
 
     /** The port to use, defaults to -1 if not set. */
-    protected final int port;
+    private final int port;
 
     /** The scheme (lowercased) */
     protected final String schemeName;

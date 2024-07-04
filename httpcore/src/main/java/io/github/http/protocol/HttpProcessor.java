@@ -29,8 +29,6 @@ package io.github.http.protocol;
 
 import io.github.http.HttpRequestInterceptor;
 import io.github.http.HttpResponseInterceptor;
-import io.github.http.HttpRequestInterceptor;
-import io.github.http.HttpResponseInterceptor;
 
 /**
  * HTTP protocol processor is a collection of protocol interceptors that

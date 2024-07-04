@@ -168,7 +168,7 @@ public class UriPatternMatcher<T> {
         }
         return
            (pattern.endsWith("*") && path.startsWith(pattern.substring(0, pattern.length() - 1))) ||
-           (pattern.startsWith("*") && path.endsWith(pattern.substring(1, pattern.length())));
+           (pattern.startsWith("*") && path.endsWith(pattern.substring(1)));
     }
 
     @Override

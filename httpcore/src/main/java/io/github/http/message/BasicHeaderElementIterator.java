@@ -27,15 +27,11 @@
 
 package io.github.http.message;
 
-import java.util.NoSuchElementException;
-
-import io.github.http.FormattedHeader;
-import io.github.http.Header;
-import io.github.http.HeaderElement;
-import io.github.http.HeaderElementIterator;
-import io.github.http.HeaderIterator;
+import io.github.http.*;
 import io.github.http.util.Args;
 import io.github.http.util.CharArrayBuffer;
+
+import java.util.NoSuchElementException;
 
 /**
  * Basic implementation of a {@link HeaderElementIterator}.
