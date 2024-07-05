@@ -26,38 +26,17 @@
  */
 package io.github.http.benchmark;
 
+import io.github.http.*;
+import io.github.http.entity.ContentType;
+import io.github.http.impl.DefaultConnectionReuseStrategy;
+import io.github.http.protocol.*;
+
+import javax.net.SocketFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.Charset;
-
-import javax.net.SocketFactory;
-
-import io.github.http.*;
-import io.github.http.entity.ContentType;
-import io.github.http.impl.DefaultConnectionReuseStrategy;
-import io.github.http.ConnectionReuseStrategy;
-import io.github.http.Header;
-import io.github.http.HeaderIterator;
-import io.github.http.HttpEntity;
-import io.github.http.HttpException;
-import io.github.http.HttpHost;
-import io.github.http.HttpRequest;
-import io.github.http.HttpResponse;
-import io.github.http.HttpStatus;
-import io.github.http.entity.ContentType;
-import io.github.http.impl.DefaultConnectionReuseStrategy;
-import io.github.http.protocol.HTTP;
-import io.github.http.protocol.HttpCoreContext;
-import io.github.http.protocol.HttpProcessor;
-import io.github.http.protocol.HttpRequestExecutor;
-import io.github.http.protocol.ImmutableHttpProcessor;
-import io.github.http.protocol.RequestConnControl;
-import io.github.http.protocol.RequestContent;
-import io.github.http.protocol.RequestExpectContinue;
-import io.github.http.protocol.RequestTargetHost;
-import io.github.http.protocol.RequestUserAgent;
 
 /**
  * Worker thread for the {@link HttpBenchmark HttpBenchmark}.

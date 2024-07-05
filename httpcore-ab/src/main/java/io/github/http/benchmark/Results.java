@@ -111,23 +111,21 @@ public final class Results {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("[serverName=").append(serverName)
-                .append(", hostName=").append(hostName)
-                .append(", hostPort=").append(hostPort)
-                .append(", documentPath=").append(documentPath)
-                .append(", contentLength=").append(contentLength)
-                .append(", concurrencyLevel=").append(concurrencyLevel)
-                .append(", totalTimeNano=").append(totalTimeNano)
-                .append(", successCount=").append(successCount)
-                .append(", failureCount=").append(failureCount)
-                .append(", writeErrors=").append(writeErrors)
-                .append(", keepAliveCount=").append(keepAliveCount)
-                .append(", totalBytesRcvd=").append(totalBytesRcvd)
-                .append(", totalBytesSent=").append(totalBytesSent)
-                .append(", totalBytes=").append(totalBytes)
-                .append("]");
-        return builder.toString();
+        return "[serverName=" + serverName +
+                ", hostName=" + hostName +
+                ", hostPort=" + hostPort +
+                ", documentPath=" + documentPath +
+                ", contentLength=" + contentLength +
+                ", concurrencyLevel=" + concurrencyLevel +
+                ", totalTimeNano=" + totalTimeNano +
+                ", successCount=" + successCount +
+                ", failureCount=" + failureCount +
+                ", writeErrors=" + writeErrors +
+                ", keepAliveCount=" + keepAliveCount +
+                ", totalBytesRcvd=" + totalBytesRcvd +
+                ", totalBytesSent=" + totalBytesSent +
+                ", totalBytes=" + totalBytes +
+                "]";
     }
 
 }

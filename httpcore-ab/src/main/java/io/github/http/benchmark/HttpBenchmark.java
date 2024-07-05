@@ -26,35 +26,7 @@
  */
 package io.github.http.benchmark;
 
-import java.io.File;
-import java.net.URL;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.SocketFactory;
-import javax.net.ssl.SSLContext;
-
 import io.github.http.*;
-import io.github.http.entity.ContentType;
-import io.github.http.entity.FileEntity;
-import io.github.http.entity.StringEntity;
-import io.github.http.message.BasicHttpEntityEnclosingRequest;
-import io.github.http.message.BasicHttpRequest;
-import io.github.http.ssl.SSLContextBuilder;
-import io.github.http.ssl.TrustStrategy;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
-import io.github.http.Header;
-import io.github.http.HttpEntity;
-import io.github.http.HttpHost;
-import io.github.http.HttpRequest;
-import io.github.http.HttpVersion;
 import io.github.http.entity.ContentType;
 import io.github.http.entity.FileEntity;
 import io.github.http.entity.StringEntity;
@@ -63,6 +35,21 @@ import io.github.http.message.BasicHttpRequest;
 import io.github.http.protocol.HTTP;
 import io.github.http.ssl.SSLContextBuilder;
 import io.github.http.ssl.TrustStrategy;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
+
+import javax.net.SocketFactory;
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.net.URL;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Main program of the HTTP benchmark.
@@ -132,7 +119,7 @@ public class HttpBenchmark {
             request = httpput;
         } else {
             String path = url.getPath();
-            if (url.getQuery() != null && url.getQuery().length() > 0) {
+            if (url.getQuery() != null && !url.getQuery().isEmpty()) {
                 path += "?" + url.getQuery();
             } else if (path.trim().isEmpty()) {
                 path = "/";
@@ -159,7 +146,7 @@ public class HttpBenchmark {
             request.addHeader(new DefaultHeader("Accept-Encoding", "gzip"));
         }
 
-        if (config.getSoapAction() != null && config.getSoapAction().length() > 0) {
+        if (config.getSoapAction() != null && !config.getSoapAction().isEmpty()) {
             request.addHeader(new DefaultHeader("SOAPAction", config.getSoapAction()));
         }
         return request;
@@ -178,15 +165,8 @@ public class HttpBenchmark {
 
         final ThreadPoolExecutor workerPool = new ThreadPoolExecutor(
                 config.getThreads(), config.getThreads(), 5, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(),
-            new ThreadFactory() {
-
-                @Override
-                public Thread newThread(final Runnable r) {
-                    return new Thread(r, "ClientPool");
-                }
-
-            });
+                new LinkedBlockingQueue<>(),
+                r -> new Thread(r, "ClientPool"));
         workerPool.prestartAllCoreThreads();
 
         SocketFactory socketFactory = null;

@@ -28,7 +28,6 @@
 package io.github.http.benchmark;
 
 import io.github.http.message.BasicHeader;
-import io.github.http.message.BasicHeader;
 
 class DefaultHeader extends BasicHeader {
 

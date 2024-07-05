@@ -97,49 +97,7 @@ public abstract class AbstractNIOConnPool<T, C, E extends PoolEntry<T, C>>
     private volatile int defaultMaxPerRoute;
     private volatile int maxTotal;
 
-    /**
-     * @deprecated use {@link AbstractNIOConnPool#AbstractNIOConnPool(ConnectingIOReactor,
-     *   NIOConnFactory, SocketAddressResolver, int, int)}
-     */
-    @Deprecated
-    public AbstractNIOConnPool(
-            final ConnectingIOReactor ioReactor,
-            final NIOConnFactory<T, C> connFactory,
-            final int defaultMaxPerRoute,
-            final int maxTotal) {
-        super();
-        Args.notNull(ioReactor, "I/O reactor");
-        Args.notNull(connFactory, "Connection factory");
-        Args.positive(defaultMaxPerRoute, "Max per route value");
-        Args.positive(maxTotal, "Max total value");
-        this.ioReactor = ioReactor;
-        this.connFactory = connFactory;
-        this.addressResolver = new SocketAddressResolver<T>() {
 
-            @Override
-            public SocketAddress resolveLocalAddress(final T route) throws IOException {
-                return AbstractNIOConnPool.this.resolveLocalAddress(route);
-            }
-
-            @Override
-            public SocketAddress resolveRemoteAddress(final T route) throws IOException {
-                return AbstractNIOConnPool.this.resolveRemoteAddress(route);
-            }
-
-        };
-        this.sessionRequestCallback = new InternalSessionRequestCallback();
-        this.routeToPool = new HashMap<T, RouteSpecificPool<T, C, E>>();
-        this.leasingRequests = new LinkedList<LeaseRequest<T, C, E>>();
-        this.pending = new HashSet<SessionRequest>();
-        this.leased = new HashSet<E>();
-        this.available = new LinkedList<E>();
-        this.maxPerRoute = new HashMap<T, Integer>();
-        this.completedRequests = new ConcurrentLinkedQueue<LeaseRequest<T, C, E>>();
-        this.lock = new ReentrantLock();
-        this.isShutDown = new AtomicBoolean(false);
-        this.defaultMaxPerRoute = defaultMaxPerRoute;
-        this.maxTotal = maxTotal;
-    }
 
     /**
      * @since 4.3

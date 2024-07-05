@@ -26,15 +26,6 @@
  */
 package io.github.http.benchmark;
 
-import java.io.IOException;
-import java.net.URL;
-
-import io.github.http.HttpException;
-import io.github.http.HttpRequest;
-import io.github.http.HttpResponse;
-import io.github.http.HttpStatus;
-import io.github.http.entity.ContentType;
-import io.github.http.entity.StringEntity;
 import io.github.http.HttpException;
 import io.github.http.HttpRequest;
 import io.github.http.HttpResponse;
@@ -47,6 +38,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class SmokeTest {
 

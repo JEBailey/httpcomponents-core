@@ -118,7 +118,7 @@ public class TestBasicNIOConnPool {
         Mockito.when(sessionRequest.getAttachment()).thenReturn(host);
         Mockito.when(reactor.connect(
                 any(SocketAddress.class),
-                any(SocketAddress.class),
+                any(),
                 eq(host),
                 any(SessionRequestCallback.class))).
                 thenReturn(sessionRequest);

@@ -45,8 +45,8 @@ public class Config {
     private boolean useChunking;
     private boolean useExpectContinue;
     private boolean useAcceptGZip;
-    private File payloadFile = null;
-    private String payloadText = null;
+    private File payloadFile;
+    private String payloadText;
     private String soapAction = null;
 
     private boolean disableSSLVerification = true;

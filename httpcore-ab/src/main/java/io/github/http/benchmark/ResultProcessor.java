@@ -26,10 +26,9 @@
  */
 package io.github.http.benchmark;
 
-import java.text.NumberFormat;
+import io.github.http.HttpHost;
 
-import io.github.http.HttpHost;
-import io.github.http.HttpHost;
+import java.text.NumberFormat;
 
 public class ResultProcessor {
 
@@ -89,14 +88,14 @@ public class ResultProcessor {
 
     static void printResults(final Results results) {
         final int threads = results.getConcurrencyLevel();
-        final double totalTimeMs  = (results.getTotalTimeNano() / threads) / 1000000; // convert nano secs to milli secs
+        final double totalTimeMs  = (double) (results.getTotalTimeNano() / threads) / 1000000; // convert nano secs to milli secs
         final double timePerReqMs = totalTimeMs / results.getSuccessCount();
         final double totalTimeSec = totalTimeMs / 1000;
         final double reqsPerSec   = results.getSuccessCount() / totalTimeSec;
 
         System.out.println("\nServer Software:\t\t" + results.getServerName());
         System.out.println( "Server Hostname:\t\t" + results.getHostName());
-        System.out.println( "Server Port:\t\t\t" + Integer.valueOf(results.getHostPort()));
+        System.out.println( "Server Port:\t\t\t" + results.getHostPort());
         System.out.println( "Document Path:\t\t\t" + results.getDocumentPath());
         System.out.println( "Document Length:\t\t" + results.getContentLength() + " bytes\n");
         System.out.println( "Concurrency Level:\t\t" + results.getConcurrencyLevel());

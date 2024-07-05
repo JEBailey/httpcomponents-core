@@ -60,6 +60,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 public class TestHttpAsyncRequestExecutor {
 
@@ -680,7 +681,7 @@ public class TestHttpAsyncRequestExecutor {
         Mockito.verify(this.exchangeHandler).failed(any(SocketTimeoutException.class));
         Mockito.verify(this.exchangeHandler).close();
         Mockito.verify(this.conn).close();
-        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(any());
+        Mockito.verify(this.conn, Mockito.never()).setSocketTimeout(anyInt());
     }
 
     @Test

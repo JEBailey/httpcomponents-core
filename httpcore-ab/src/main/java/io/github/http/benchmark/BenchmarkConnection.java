@@ -26,15 +26,12 @@
  */
 package io.github.http.benchmark;
 
+import io.github.http.impl.DefaultBHttpClientConnection;
+import io.github.http.io.SessionInputBuffer;
+import io.github.http.io.SessionOutputBuffer;
+
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import io.github.http.impl.DefaultBHttpClientConnection;
-import io.github.http.io.SessionInputBuffer;
-import io.github.http.io.SessionOutputBuffer;
-import io.github.http.impl.DefaultBHttpClientConnection;
-import io.github.http.io.SessionInputBuffer;
-import io.github.http.io.SessionOutputBuffer;
 
 class BenchmarkConnection extends DefaultBHttpClientConnection {
 

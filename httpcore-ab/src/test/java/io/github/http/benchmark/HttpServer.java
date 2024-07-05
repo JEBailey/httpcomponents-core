@@ -27,37 +27,20 @@
 
 package io.github.http.benchmark;
 
+import io.github.http.ConnectionClosedException;
+import io.github.http.HttpException;
+import io.github.http.HttpServerConnection;
+import io.github.http.impl.DefaultBHttpServerConnection;
+import io.github.http.impl.DefaultConnectionReuseStrategy;
+import io.github.http.impl.DefaultHttpResponseFactory;
+import io.github.http.protocol.*;
+import io.github.http.util.Asserts;
+
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import io.github.http.ConnectionClosedException;
-import io.github.http.HttpException;
-import io.github.http.HttpServerConnection;
-import io.github.http.impl.DefaultBHttpServerConnection;
-import io.github.http.impl.DefaultConnectionReuseStrategy;
-import io.github.http.impl.DefaultHttpResponseFactory;
-import io.github.http.util.Asserts;
-import io.github.http.ConnectionClosedException;
-import io.github.http.HttpException;
-import io.github.http.HttpServerConnection;
-import io.github.http.impl.DefaultBHttpServerConnection;
-import io.github.http.impl.DefaultConnectionReuseStrategy;
-import io.github.http.impl.DefaultHttpResponseFactory;
-import io.github.http.protocol.BasicHttpContext;
-import io.github.http.protocol.HttpContext;
-import io.github.http.protocol.HttpProcessor;
-import io.github.http.protocol.HttpRequestHandler;
-import io.github.http.protocol.HttpService;
-import io.github.http.protocol.ImmutableHttpProcessor;
-import io.github.http.protocol.ResponseConnControl;
-import io.github.http.protocol.ResponseContent;
-import io.github.http.protocol.ResponseDate;
-import io.github.http.protocol.ResponseServer;
-import io.github.http.protocol.UriHttpRequestHandlerMapper;
-import io.github.http.util.Asserts;
 
 public class HttpServer {
 
